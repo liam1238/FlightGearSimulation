@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="419.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Controller">
+<Pane fx:id="paneParent" prefHeight="419.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Controller">
     <Pane fx:id="attributesTableParent" layoutX="7.0" layoutY="27.0" />
     <Pane fx:id="joystickSliderPane" layoutX="510.0" layoutY="4.0" prefHeight="179.0" prefWidth="202.0">
         <padding>
@@ -31,83 +31,90 @@
             <Circle layoutX="108.0" layoutY="74.0" radius="30.0" stroke="BLACK" strokeType="INSIDE" />
         </children>
     </Pane>
-    <Label fx:id="labelSpeed" layoutX="447.0" layoutY="352.0" text="Play speed">
+    <Label fx:id="labelSpeed" layoutX="460.0" layoutY="352.0" text="Play speed">
         <font>
             <Font name="Arial" size="14.0" />
         </font></Label>
-    <ImageView fx:id="doubleSpeedDown" fitHeight="30.0" fitWidth="30.0" layoutX="170.0" layoutY="346.0" onMouseClicked="#doubleSpeedDownClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="doubleSpeedDown" fitHeight="30.0" fitWidth="30.0" layoutX="183.0" layoutY="346.0" onMouseClicked="#doubleSpeedDownClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/speed_down.jpg" />
         </image>
     </ImageView>
-    <ImageView fx:id="slow" fitHeight="30.0" fitWidth="30.0" layoutX="208.0" layoutY="346.0" onMouseClicked="#speedDownClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="slow" fitHeight="30.0" fitWidth="30.0" layoutX="221.0" layoutY="346.0" onMouseClicked="#speedDownClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/slow.jpg" />
         </image>
     </ImageView>
-    <ImageView fx:id="play" fitHeight="30.0" fitWidth="30.0" layoutX="246.0" layoutY="346.0" onMouseClicked="#playClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="play" fitHeight="30.0" fitWidth="30.0" layoutX="259.0" layoutY="346.0" onMouseClicked="#playClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/play.jpg" />
         </image>
     </ImageView>
-    <ImageView fx:id="pause" fitHeight="30.0" fitWidth="30.0" layoutX="284.0" layoutY="346.0" onMouseClicked="#pauseClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="pause" fitHeight="30.0" fitWidth="30.0" layoutX="297.0" layoutY="346.0" onMouseClicked="#pauseClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/pause.jpg" />
         </image>
     </ImageView>
-    <ImageView fx:id="stop" fitHeight="30.0" fitWidth="30.0" layoutX="323.0" layoutY="346.0" onMouseClicked="#stopClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="stop" fitHeight="30.0" fitWidth="30.0" layoutX="336.0" layoutY="346.0" onMouseClicked="#stopClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/stop.jpg" />
         </image>
     </ImageView>
-    <ImageView fx:id="speed" fitHeight="30.0" fitWidth="30.0" layoutX="359.0" layoutY="347.0" onMouseClicked="#speedUpClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="speed" fitHeight="30.0" fitWidth="30.0" layoutX="372.0" layoutY="347.0" onMouseClicked="#speedUpClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/speed.jpg" />
         </image>
     </ImageView>
-    <ImageView fx:id="doubleSpeedUp" fitHeight="30.0" fitWidth="30.0" layoutX="398.0" layoutY="346.0" onMouseClicked="#doubleSpeedUpClicked" pickOnBounds="true" preserveRatio="true">
+    <ImageView fx:id="doubleSpeedUp" fitHeight="30.0" fitWidth="30.0" layoutX="411.0" layoutY="346.0" onMouseClicked="#doubleSpeedUpClicked" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@Icons/speed_up.jpg" />
         </image>
     </ImageView>
     <ListView fx:id="attributes" layoutX="523.0" layoutY="210.0" prefHeight="124.0" prefWidth="162.0" />
-   <Pane layoutX="92.0" layoutY="18.0" prefHeight="311.0" prefWidth="404.0">
-      <children>
-         <AreaChart layoutY="156.0" prefHeight="151.0" prefWidth="397.0">
-           <xAxis>
-             <CategoryAxis side="BOTTOM" />
-           </xAxis>
-           <yAxis>
-             <NumberAxis side="LEFT" />
-           </yAxis>
-         </AreaChart>
-         <LineChart layoutX="2.0" layoutY="7.0" prefHeight="140.0" prefWidth="69.0">
-           <xAxis>
-             <CategoryAxis side="BOTTOM" />
-           </xAxis>
-           <yAxis>
-             <NumberAxis side="LEFT" />
-           </yAxis>
-         </LineChart>
-         <LineChart layoutX="202.0" layoutY="5.0" prefHeight="124.0" prefWidth="200.0">
-           <xAxis>
-             <CategoryAxis side="BOTTOM" />
-           </xAxis>
-           <yAxis>
-             <NumberAxis side="LEFT" />
-           </yAxis>
-         </LineChart>
-      </children>
-   </Pane>
-   <Button fx:id="OpenCsvFiles" layoutX="110.0" layoutY="348.0" mnemonicParsing="false" onMouseClicked="#openCSVFile" text="Open">
+    <Pane layoutX="92.0" layoutY="18.0" prefHeight="311.0" prefWidth="404.0">
+        <children>
+            <AreaChart layoutY="156.0" prefHeight="151.0" prefWidth="397.0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </AreaChart>
+            <LineChart layoutX="2.0" layoutY="7.0" prefHeight="140.0" prefWidth="69.0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </LineChart>
+            <LineChart layoutX="202.0" layoutY="5.0" prefHeight="124.0" prefWidth="200.0">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </LineChart>
+        </children>
+    </Pane>
+    <ChoiceBox fx:id="choiceBox" layoutX="5.0" layoutY="33.0" prefHeight="16.0" prefWidth="103.0" />
+    <Label alignment="CENTER" layoutX="14.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" text="Attributes" textAlignment="JUSTIFY">
+        <font>
+            <Font name="Arial" size="13.0" />
+        </font>
+    </Label>
+   <Button fx:id="ReadAndWriteXML" layoutX="9.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#WriteXML" text="OpenXML">
       <font>
-         <Font name="Arial" size="14.0" />
+         <Font name="Arial" size="13.0" />
       </font>
    </Button>
-   <ChoiceBox fx:id="choiceBox" layoutX="5.0" layoutY="33.0" prefHeight="16.0" prefWidth="103.0" />
-   <Label alignment="CENTER" layoutX="14.0" layoutY="6.0" prefHeight="25.0" prefWidth="86.0" text="Attributes" textAlignment="JUSTIFY">
+   <Slider fx:id="sliderControllerSpeed" layoutX="16.0" layoutY="377.0" prefHeight="37.0" prefWidth="669.0" />
+   <ChoiceBox fx:id="choiceBox2" layoutX="90.0" layoutY="348.0" onMouseClicked="#openCSVFile" prefHeight="25.0" prefWidth="86.0" value="anomaly_flight.csv" />
+   <Label layoutX="86.0" layoutY="330.0" text="Choose CSV File">
       <font>
-         <Font name="Arial" size="14.0" />
+         <Font name="Arial" size="12.0" />
       </font>
    </Label>
 
