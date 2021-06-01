@@ -4,10 +4,11 @@ import AnomalyDetector.SimpleAnomalyDetector;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 
 public class Model extends Observable implements ModelInterface {
-    //private SimulatorClient simulatorClient;
+    private SimulatorClient simulatorClient = new SimulatorClient();
     Map<String, List<String>> properties;
     List <String> names;
     List<List<String>> list = new ArrayList<>();
@@ -24,7 +25,7 @@ public class Model extends Observable implements ModelInterface {
     public Model() {
         int port = 5402;
         String ip = "127.0.0.1";
-      /*  try{
+       /* try{
             fg = new Socket(ip, port);
             out2fg = new PrintWriter(fg.getOutputStream());
         } catch (UnknownHostException e) {
@@ -34,29 +35,33 @@ public class Model extends Observable implements ModelInterface {
         }*/
     }
 
-        public void setAileron(double x) {
-            String command = properties.get("aileron").get(0);
-            out2fg.println(command + " " + x);
-            out2fg.flush();
-        }
+    public void setAileron(double x) {
+        String[] command = new String[]{"set /controls/flight/aileron " + properties.get("aileron").get((int) x)};
+        out2fg.println(command + " " + x); // ????
+        out2fg.println(command);           // ????
+        out2fg.flush();
+    }
 
-            public void setElevators(double x) {
-                String command = properties.get("elevators").get(0);
-                out2fg.println(command + " " + x);
-                out2fg.flush();
-            }
+    public void setElevators(double x) {
+        String[] command = new String[]{"set /controls/flight/elevator " + properties.get("elevator'").get((int) x)};
+        out2fg.println(command + " " + x); // ????
+        out2fg.println(command);           // ????
+        out2fg.flush();
+    }
 
-            public void setRudder(double x) {
-                String command = properties.get("rudder").get(0);
-                out2fg.println(command + " " + x);
-                out2fg.flush();
-            }
+    public void setRudder(double x) {
+        String[] command = new String[]{"set /controls/flight/rudder " + properties.get("rudder").get((int) x)};
+        out2fg.println(command + " " + x); // ????
+        out2fg.println(command);           // ????
+        out2fg.flush();
+    }
 
-            public void setThrottle(double x) {
-                String command = properties.get("throttle").get(0);
-                out2fg.println(command + " " + x);
-                out2fg.flush();
-            }
+    public void setThrottle(double x) {
+        String[] command = new String[]{"set /controls/engines/current-engine/throttle " + properties.get("throttle").get((int) x)};
+        out2fg.println(command + " " + x); // ????
+        out2fg.println(command);           // ????
+        out2fg.flush();
+    }
 
     @Override
     public void finalize() {
@@ -70,7 +75,7 @@ public class Model extends Observable implements ModelInterface {
 
     @Override
     public void openCSVFile(String propertiesFileName) {
-       // simulatorClient = new SimulatorClient();
+        // simulatorClient = new SimulatorClient();
         properties = new LinkedHashMap<>();
         String sp[];
         try {
@@ -175,6 +180,10 @@ public class Model extends Observable implements ModelInterface {
         notifyObservers();
     }
 
+    public void send(String[] data)
+    {
+        simulatorClient.Send(data);
+    }
 
 }
 
