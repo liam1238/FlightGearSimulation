@@ -2,111 +2,87 @@ package View;
 
 import Model.Model;
 import ViewModel.viewModel;
+import XML.Item;
+import XML.StaXParser;
+import XML.StaxWriter;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 
-import javax.naming.Binding;
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
 
 public class Controller implements Initializable {
+
     Map <String, List<String>> listMap;
     Model model = new Model();
     //TimeSeries timeSeries = new Model.TimeSeries();
     viewModel viewModel = new viewModel(model);
     DoubleProperty aileron, elevators;
 
-    public Button OpenCsvFiles;
     @FXML
-    private Pane paneParent;
+    public Button ReadAndWriteXML;
     @FXML
-    private Pane attributesTableParent;
+    public Pane paneParent;
     @FXML
-    private Slider sliderControllerSpeed;
+    public Pane attributesTableParent;
     @FXML
-    private Button openCsvFiles;
+    public Slider sliderControllerSpeed;
     @FXML
     private ChoiceBox choiceBox;
     @FXML
-    private Pane graphsAttributesParent;
+    private ChoiceBox choiceBox2;
     @FXML
-    private LineChart graph2;
-    @FXML
-    private LineChart graph1;
-    @FXML
-    private LineChart algoGraph;
-    @FXML
-    private Pane joystickSlider;
+    public Pane joystickSliderPane;
     @FXML
     private Slider throttle;
     @FXML
     private Slider rudder;
     @FXML
-    private Canvas joystick;
+    public Canvas joystick;
     @FXML
-    private ListView attributes;
+    public ListView attributes;
     @FXML
-    private Label labelSpeed;
+    public Label labelSpeed;
     @FXML
-    private ImageView play;
+    public ImageView play;
     @FXML
-    private ImageView pause;
+    public ImageView pause;
     @FXML
-    private ImageView stop;
+    public ImageView stop;
     @FXML
-    private ImageView speed;
+    public ImageView speed;
     @FXML
-    private ImageView slow;
+    public ImageView slow;
     @FXML
-    private ImageView doubleSpeedUp;
+    public ImageView doubleSpeedUp;
     @FXML
-    private ImageView doubleSpeedDown;
+    public ImageView doubleSpeedDown;
 
     public Controller() { }
 
     private boolean atEndOfVideo = false;
     private boolean isPlaying = true;
-    private ImageView ivPlay;
-    private ImageView ivPause;
-    private ImageView ivSpeedDown;
-    private ImageView ivSpeedUp;
-    private ImageView ivDoubleSpeedUp;
-    private ImageView ivDoubleSpeedDown;
-    private ImageView ivStop;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<String> attributes1 = FXCollections.observableArrayList("aileron", "elevator", "rudder", "flaps",
-                "slats", "speedbrake", "throttle", "throttle1", "engine-pump", "engine-pump1", "electric-pump", "electric-pump1",
-                "external-power", "APU-generator", "latitude-deg", "longitude-deg", "altitude-ft", "roll-deg", "pitch-deg", "heading-deg",
-                "side-slip-deg", "airspeed-kt", "glideslope", "vertical-speed-fps", "airspeed-indicator_indicated-speed-kt",
-                "altimeter_indicated-altitude-ft", "altimeter_pressure-alt-ft", "attitude-indicator_indicated-pitch-deg",
-                "attitude-indicator_indicated-roll-deg", "attitude-indicator_internal-pitch-deg", "attitude-indicator_internal-roll-deg",
-                "encoder_indicated-altitude-ft", "encoder_pressure-alt-ft", "gps_indicated-altitude-ft", "gps_indicated-ground-speed-kt",
-                "gps_indicated-vertical-speed", "indicated-heading-deg", "magnetic-compass_indicated-heading-deg",
-                "slip-skid-ball_indicated-slip-skid", "turn-indicator_indicated-turn-rate", "vertical-speed-indicator_indicated-speed-fpm",
-                "engine_rpm");
+        ObservableList<String> attributes1 = FXCollections.observableArrayList("airspeed-indicator", "altimeter_pressure",
+                "attitude-pitch_deg", "attitude-roll_deg", "attitude-pitch_deg", "attitude-roll_deg", "gps_altitude", "magnetic-compass",
+                "skid-ball", "vertical-speed");
         choiceBox.setItems(attributes1);
+
+        ObservableList<String> CSVFiles = FXCollections.observableArrayList("anomaly_flight.csv", "reg_flight.csv");
+        choiceBox2.setItems(CSVFiles);
 
         viewModel.rudder.bind(rudder.valueProperty());
         viewModel.throttle.bind(throttle.valueProperty());
@@ -180,38 +156,92 @@ public class Controller implements Initializable {
     }
 */
     }
+
     public void playClicked(MouseEvent mouseEvent){
         System.out.println("play the simulator");
     }
+
     public void pauseClicked(MouseEvent mouseEvent){
         System.out.println("pause the simulator");
     }
+
     public void stopClicked(MouseEvent mouseEvent){
         System.out.println("stop the simulator");
     }
+
     public void speedDownClicked(MouseEvent mouseEvent){
         System.out.println("slow down the simulator");
     }
+
     public void speedUpClicked(MouseEvent mouseEvent){
         System.out.println("speed up the simulator");
     }
+
     public void doubleSpeedDownClicked(MouseEvent mouseEvent){
         System.out.println("slow down X2 the simulator");
     }
+
     public void doubleSpeedUpClicked(MouseEvent mouseEvent){
         System.out.println("speed up X2 the simulator");
     }
 
-    public void openCSVFile(MouseEvent mouseEvent){
+    public void WriteXML(MouseEvent mouseEvent){
+        System.out.println("XML file read and write...");
+        StaXParser read = new StaXParser();
+        StaxWriter write = new StaxWriter();
+        List<Item> readConfig = read.readConfig("playback_small.xml");
+        write.Writer(readConfig);
+    }
+
+    public void openCSVFile(MouseEvent mouseEvent) {
         System.out.println("open csv file...");
-        model.openCSVFile("anomaly_flight.csv");
+        if(choiceBox2.getSelectionModel().getSelectedItem().equals("anomaly_flight.csv")){
+            model.openCSVFile("anomaly_flight.csv");
+            System.out.println("anomaly_flight opened");
+        } else {
+            model.openCSVFile("reg_flight.csv");
+            System.out.println("reg_flight opened");
+        }
         listMap = model.getMap();
-       // model.setTimeSeries("anomaly_flight.csv");
         model.setAnomalyDetector(model.setTimeSeries("anomaly_flight.csv"));
         System.out.println("Done");
     }
 
+    public void AttributesChoose(MouseEvent mouseEvent){
+        switch (choiceBox.getSelectionModel().getSelectedIndex()){
+            case 0:
+                listMap.get("airspeed-indicator_indicated-speed-kt");
+                //map.paint(airspeed);
+                break;
+            case 1:
+                listMap.get("altimeter_pressure-alt-ft");
+                break;
+            case 2:
+                listMap.get("attitude-indicator_indicated-pitch-deg");
+                break;
+            case 3:
+                listMap.get("attitude-indicator_indicated-roll-deg");
+                break;
+            case 4:
+                listMap.get("attitude-indicator_internal-pitch-deg");
+                break;
+            case 5:
+                listMap.get("attitude-indicator_internal-roll-deg");
+                break;
+            case 6:
+                listMap.get("gps_indicated-altitude-ft");
+                break;
+            case 7:
+                listMap.get("magnetic-compass_indicated-heading-deg");
+                break;
+            case 8:
+                listMap.get("slip-skid-ball_indicated-slip-skid");
+                break;
+            case 9:
+                listMap.get("vertical-speed-indicator_indicated-speed-fpm");
+                break;
 
-
+        }
+    }
 
 }
