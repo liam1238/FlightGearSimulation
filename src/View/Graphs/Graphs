@@ -1,0 +1,30 @@
+package View.Graphs;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.BubbleChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
+
+public class Graphs extends AnchorPane
+{
+    public BubbleChart BChart;
+    public LineChart CChart;
+    public LineChart fChart;
+
+    public Graphs() {
+        super();
+        try {
+            FXMLLoader fxl = new FXMLLoader();
+            AnchorPane graph = fxl.load(getClass().getResource("Graphs.fxml").openStream());
+            GraphsController graphsController = fxl.getController();
+            BChart = graphsController.algoChart;
+            CChart = graphsController.CorrelatedChart;
+            fChart = graphsController.FeatureChart;
+            this.getChildren().add(graph);
+
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+}
+
