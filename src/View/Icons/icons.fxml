@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="View.Icons.IconsController">
+<children>
+   <Button fx:id="doubleBack" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#SkipBackwardTwice" prefHeight="10.0" prefWidth="0.0" />
+   <Button fx:id="back" layoutX="60.0" layoutY="14.0" mnemonicParsing="false" onAction="#SkipBackward" prefHeight="10.0" prefWidth="0.0" />
+   <Button fx:id="play" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#startFlight" prefHeight="10.0" prefWidth="0.0" />
+   <Button fx:id="pause" layoutX="140.0" layoutY="14.0" mnemonicParsing="false" onAction="#pauseFlight" prefHeight="10.0" prefWidth="0.0" />
+   <Button fx:id="stop" layoutX="180.0" layoutY="14.0" mnemonicParsing="false" onAction="#stopFlight" prefHeight="10.0" prefWidth="0.0" />
+   <Button fx:id="forward" layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#SkipForward" prefHeight="10.0" prefWidth="0.0" />
+   <Button fx:id="doubleForward" layoutX="260.0" layoutY="14.0" mnemonicParsing="false" onAction="#SkipForwardTwice" prefHeight="10.0" prefWidth="0.0" />
+   <Label layoutX="712.0" layoutY="53.0" prefHeight="18.0" prefWidth="60.0" text="speed">
+      <font>
+         <Font name="Arial Bold" size="13.0" />
+      </font></Label>
+   <ChoiceBox fx:id="videoSpeed" layoutX="755.0" layoutY="50.0" prefHeight="25.0" prefWidth="126.0" />
+   <Slider fx:id="videoSlider" layoutX="32.0" layoutY="90.0" prefHeight="14.0" prefWidth="796.0" />
+   <Label fx:id="videoTime" layoutX="838.0" layoutY="88.0" prefHeight="17.0" prefWidth="66.0" text="00:00">
+      <font>
+         <Font name="Arial Bold" size="13.0" />
+      </font></Label>
+</children>
+</AnchorPane>
