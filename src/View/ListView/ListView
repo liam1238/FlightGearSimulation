@@ -1,0 +1,29 @@
+package View.ListView;
+
+import java.io.IOException;
+
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+
+public class ListView extends AnchorPane {
+    public javafx.scene.control.ListView list;
+    public Button xml;
+    public StringProperty xmlpath;
+
+    public ListView() {
+        try {
+            FXMLLoader fxl = new FXMLLoader();
+            AnchorPane viewlist = (AnchorPane)fxl.load(this.getClass().getResource("ListView.fxml").openStream());
+            ListViewController listViewController = (ListViewController)fxl.getController();
+            this.list = listViewController.listView;
+            xml = listViewController.xml;
+            xmlpath = listViewController.XmlPath;
+            this.getChildren().add(viewlist);
+        } catch (IOException var4) {
+            var4.printStackTrace();
+        }
+
+    }
+}
