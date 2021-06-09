@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="View.Graphs.GraphsController">
+
+    <children>
+        <LineChart fx:id="CorrelatedChart" layoutX="-3.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <LineChart fx:id="FeatureChart" layoutX="184.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <BubbleChart fx:id="algoChart" layoutX="45.0" layoutY="201.0" prefHeight="194.0" prefWidth="299.0">
+            <xAxis>
+                <NumberAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </BubbleChart>
+    </children>
+</AnchorPane>
