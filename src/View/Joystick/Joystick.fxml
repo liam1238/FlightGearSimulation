@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="383.0" prefWidth="206.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Joystick.JoystickController">
+    <children>
+        <Circle fx:id="CanvasCircle" layoutX="106.0" layoutY="93.0" radius="61.0" stroke="WHITE" strokeType="INSIDE" />
+        <Circle fx:id="movingCircle" fill="WHITE" layoutX="105.0" layoutY="94.0" radius="32.0" stroke="WHITE" strokeType="INSIDE" />
+        <Slider fx:id="rudder" layoutX="31.0" layoutY="161.0" majorTickUnit="0.1" max="1.0" min="-1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
+        <Slider fx:id="throttle" layoutX="15.0" layoutY="33.0" majorTickUnit="0.1" max="1.0" minorTickCount="1" orientation="VERTICAL" prefHeight="122.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" />
+        <Label layoutX="19.0" layoutY="223.0" text="Yaw">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label layoutX="14.0" layoutY="248.0" text="Altitude">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label layoutX="12.0" layoutY="274.0" text="Direction">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label layoutX="13.0" layoutY="298.0" text="Speed">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label layoutX="15.0" layoutY="321.0" text="Pitch">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label layoutX="18.0" layoutY="345.0" text="Roll">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label fx:id="yawValue" layoutX="84.0" layoutY="223.0" text="0.0">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label fx:id="AltitudeValue" layoutX="84.0" layoutY="248.0" text="0.0">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label fx:id="DirectionValue" layoutX="84.0" layoutY="274.0" text="0.0">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label fx:id="speedValue" layoutX="84.0" layoutY="298.0" text="0.0">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label fx:id="PitchValue" layoutX="84.0" layoutY="321.0" text="0.0">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+        <Label fx:id="RollValue" layoutX="83.0" layoutY="343.0" prefHeight="17.0" prefWidth="40.0" text="0.0">
+            <font>
+                <Font name="Arial Bold" size="13.0" />
+            </font></Label>
+    </children>
+</AnchorPane>
