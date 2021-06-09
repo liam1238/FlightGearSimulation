@@ -1,0 +1,36 @@
+package View.OpenFiles;
+
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
+
+public class OpenFiles extends AnchorPane {
+    public MenuItem algo;
+    public StringProperty algoName;
+    public StringProperty algoPath;
+    public MenuItem csv;
+    public StringProperty csvPath;
+
+
+    public OpenFiles() {
+        super();
+        try {
+            FXMLLoader fxl = new FXMLLoader();
+            AnchorPane open = fxl.load(getClass().getResource("OpenFiles.fxml").openStream());
+            OpenFilesController openFilesController = fxl.getController();
+            algo = openFilesController.algo;
+            algoName = openFilesController.AlgoName;
+            algoPath = openFilesController.AlgoPath;
+            csv = openFilesController.csv;
+            csvPath = openFilesController.CsvPath;
+            this.getChildren().add(open);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+}
