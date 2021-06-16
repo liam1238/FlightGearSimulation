@@ -1,49 +1,52 @@
 package View;
 
 import Model.Model;
-import Model.SimulatorClient;
-import ViewModel.viewModel;
+import ViewModel.ViewModel;
+import application.Utils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        Parent root = fxmlLoader.load(getClass().getResource("FlightSimulator.fxml").openStream());
-//        primaryStage.setTitle("Flight Simulator");
-//        Controller c = fxmlLoader.getController();
-//        c.init();
-//        primaryStage.setScene(new Scene(root, 700, 420));
-//        primaryStage.show();
-//        Model model = new Model();
-//        viewModel viewModel = new viewModel(model);
-//        model.addObserver(viewModel);
-//        Controller controller = fxmlLoader.getController();
-//        //viewModel.addObserver(controller);
-//        String ip = "127.0.0.1";
-//        int port = 5402;
-//        SimulatorClient simulatorClient = new SimulatorClient();
-//        //simulatorClient.Connect(ip,port);
+	public static ViewModel viewModel;
+	public static Scene scene;
+	public static boolean isTimeSliding = false;
+	public static boolean isSpeedSliding = false;
+	public static boolean paramSelected = false;
 
-        Parent root = FXMLLoader.load(getClass().getResource("FlightSimulator.fxml"));
-        primaryStage.setTitle("Flight Simulator");
-        primaryStage.setScene(new Scene(root, 900, 600));
-        primaryStage.show();
-        int port = 5402;
-        String ip = "127.0.0.1";
-        SimulatorClient simulatorClient = new SimulatorClient();
-       // simulatorClient.Connect(ip,port);
+	@Override
+	public void start(Stage primaryStage) throws IOException {
 
-    }
+		System.out.println("Connecting to the flight simulator...");
+		Model m = new Model();
+		viewModel = new ViewModel(m);
+		viewModel.start();
+		System.out.println("Connected.");
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		BorderPane root = fxmlLoader.load(getClass().getResource("FlightSimulator.fxml"));
+		primaryStage.setTitle("Flight Simulator");
+		scene = new Scene(root,900,630);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
+		primaryStage.show();
+		Utils.setDisableALL(true); //disable all icons before opening a csv file
+		((LineChart)Utils.getNodeByID("paramGraph1")).setCreateSymbols(false); //unable line charts from display dots
+		((LineChart)Utils.getNodeByID("paramGraph2")).setCreateSymbols(false); //unable line charts from display dots
+	}
 
+	@Override
+	public void stop(){
+		System.out.println("Stage is closing, bye bye...");
+	    try { ViewModel.simulatorApi.finalize(); } catch(Exception e) {e.printStackTrace();}; //finalize when we close the stage
+	}
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
