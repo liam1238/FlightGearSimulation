@@ -1,33 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="View.Graphs.GraphsController">
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-    <children>
-        <LineChart fx:id="CorrelatedChart" layoutX="-3.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
-            <xAxis>
-                <CategoryAxis side="BOTTOM" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT" />
-            </yAxis>
-        </LineChart>
-        <LineChart fx:id="FeatureChart" layoutX="184.0" layoutY="28.0" prefHeight="158.0" prefWidth="195.0">
-            <xAxis>
-                <CategoryAxis side="BOTTOM" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT" />
-            </yAxis>
-        </LineChart>
-        <BubbleChart fx:id="algoChart" layoutX="45.0" layoutY="201.0" prefHeight="194.0" prefWidth="299.0">
-            <xAxis>
-                <NumberAxis side="BOTTOM" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT" />
-            </yAxis>
-        </BubbleChart>
-    </children>
-</AnchorPane>
+<HBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Graphs.GraphsController">
+<children>
+    <VBox />
+    <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="384.0">
+        <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+                <children>
+                    <LineChart fx:id="paramGraph1" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="195.0">
+                        <xAxis>
+                            <NumberAxis fx:id="paramCategoryAxis1" animated="false" forceZeroInRange="false" label="parameter 1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" translateY="18.0" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis animated="false" forceZeroInRange="false" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" />
+                        </yAxis>
+                    </LineChart>
+                    <LineChart fx:id="paramGraph2" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="201.0">
+                        <xAxis>
+                            <NumberAxis fx:id="paramCategoryAxis2" animated="false" forceZeroInRange="false" label="parameter 2" prefHeight="0.0" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" translateY="18.0" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis animated="false" forceZeroInRange="false" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" />
+                        </yAxis>
+                    </LineChart>
+                </children>
+            </HBox>
+            <Pane>
+               <children>
+                  <Canvas fx:id="anomalyCanvas1" height="369.0" layoutX="120.0" layoutY="-98.0" rotate="-90.0" width="144.0" />
+                  <Label layoutX="128.0" layoutY="162.0" prefHeight="17.0" prefWidth="105.0" text="Anomaly Graph">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+        </children>
+    </VBox>
+</children>
+</HBox>
