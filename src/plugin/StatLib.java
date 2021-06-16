@@ -1,67 +1,83 @@
 package plugin;
 
-
 public class StatLib {
 
-	
+	// method that calculates the avg
+	public static float max(float[] x) {
+		float max = x[0];
+		for (int i = 1; i < x.length; i++) {
+			if (x[i]>max)
+				max = x[i];
+		}
+		return max;
+	}
 
-	// simple average
-	public static float avg(float[] x){
-		float sum=0;
-		for(int i=0;i<x.length;sum+=x[i],i++);
-		return sum/x.length;
+	// method that calculates the avg
+	public static float avg(float[] x) {
+		float sum = 0;
+		for (float v : x)
+			sum = sum + v;
+		return (sum / x.length);
 	}
 
 	// returns the variance of X and Y
-	public static float var(float[] x){
-		float av=avg(x);
-		float sum=0;
-		for(int i=0;i<x.length;i++){
-			sum+=x[i]*x[i];
-		}
-		return sum/x.length - av*av;
+	public static float var(float[] x) {
+		float variance = 0;
+		float average = avg(x);
+		for (float v : x)
+			variance = variance + (v * v);
+		average = average * average;
+		return ((variance / x.length) - average);
 	}
 
 	// returns the covariance of X and Y
-	public static float cov(float[] x, float[] y){
-		float sum=0;
-		for(int i=0;i<x.length;i++){
-			sum+=x[i]*y[i];
-		}
-		sum/=x.length;
-	
-		return sum - avg(x)*avg(y);
+	public static float cov(float[] x, float[] y) {
+		float average_x = avg(x);
+		float average_y = avg(y);
+		float sum = 0;
+		for (int i = 0; i < x.length; i++)
+			sum = sum + ((x[i] - average_x) * (y[i] - average_y));
+		return sum / x.length;
 	}
 
-
 	// returns the Pearson correlation coefficient of X and Y
-	public static float pearson(float[] x, float[] y){
-		return (float) (cov(x,y)/(Math.sqrt(var(x))*Math.sqrt(var(y))));
+	public static float pearson(float[] x, float[] y) {
+		float cov = cov(x,y);
+		float var_x = (float) Math.sqrt(var(x));
+		float var_y = (float) Math.sqrt(var(y));
+		float pearson = 0;
+		pearson = cov / (var_x * var_y);
+		return pearson;
 	}
 
 	// performs a linear regression and returns the line equation
-	public static Line linear_reg(Point[] points){
-		float x[]=new float[points.length];
-		float y[]=new float[points.length];
-		for(int i=0;i<points.length;i++){
-			x[i]=points[i].x;
-			y[i]=points[i].y;
+	public static Line linear_reg(Point[] points) {
+		float a, b, average_x, average_y;
+		float[] arr_x = new float[points.length];
+		float[] arr_y = new float[points.length];
+		for (int i = 0; i < points.length; i++) {
+			arr_x[i] = points[i].x;
+			arr_y[i] = points[i].y;
 		}
-		float a=cov(x,y)/var(x);
-		float b=avg(y) - a*(avg(x));
-	
-		return new Line(a,b);
+		average_x = avg(arr_x);
+		average_y = avg(arr_y);
+		a = cov(arr_x, arr_y) / var(arr_x);
+		b = average_y - (a * average_x);
+		Line line_eq = new Line(a, b);
+		return line_eq;
 	}
 
 	// returns the deviation between point p and the line equation of the points
-	public static float dev(Point p,Point[] points){
-		Line l=linear_reg(points);
-		return dev(p,l);
+	public static float dev(Point p, Point[] points) {
+		Line temp_linear = linear_reg(points);
+		float deviation;
+		deviation = dev(p, temp_linear);
+		return deviation;
 	}
-
 	// returns the deviation between point p and the line
-	public static float dev(Point p,Line l){
-		return Math.abs(p.y-l.f(p.x));
+	public static float dev(Point p, Line l) {
+		float deviation;
+		deviation = Math.abs(l.f(p.x) - p.y);
+		return deviation;
 	}
-	
 }
