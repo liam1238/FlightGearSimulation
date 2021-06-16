@@ -14,7 +14,8 @@ public class ZScoreAlgorithm implements AnomalyDetectionAlgorithm {
 
 	public ZScoreAlgorithm() { txValues = new ArrayList<>(); }
 
-	public float calcAvg(TimeSeries ts, int col, int until) {	//calculating the average of a specific feature from start to index "until"
+	//calculating the average of a specific feature from start to index "until"
+	public float calcAvg(TimeSeries ts, int col, int until) {
 		float avg = 0;
 		for(int i = 0; i < until; i++)
 			avg += ts.getValues().get(col).get(i);
@@ -35,14 +36,15 @@ public class ZScoreAlgorithm implements AnomalyDetectionAlgorithm {
 		return Math.abs(ts.values.get(col).get(until) - avg) / (float)Math.sqrt(StatLib.var(cutArray(ts,col,until)));
 	}
 
-	public void learnNormal (File trainFile) { //calculate Tx
+	//calculate Tx
+	public void learnNormal (File trainFile) {
 		TimeSeries ts = new TimeSeries(trainFile.toString());
 		learnNormal(ts);
 	}
 
-	public void learnNormal (TimeSeries ts) {	//we fill the ZScore matrix
-		for(int j = 0; j < ts.values.size(); j++)
-		{
+	//we fill the ZScore matrix
+	public void learnNormal (TimeSeries ts) {
+		for(int j = 0; j < ts.values.size(); j++) {
 			allZScoreValues.add(new ArrayList<>());
 			for(int i = 0; i < ts.getValues().get(j).size(); i++)
 				allZScoreValues.get(j).add(ZScore(ts,j,i));
@@ -68,8 +70,7 @@ public class ZScoreAlgorithm implements AnomalyDetectionAlgorithm {
 		timeS = ts;
 		List<AnomalyReport> anomalies = new ArrayList<>();
 		float current;
-		for(int i = 0; i < ts.getValues().size(); i++)
-		{
+		for(int i = 0; i < ts.getValues().size(); i++) {
 			for(int j = 0; j < ts.getValues().get(i).size(); j++) {	//check if current ZScore is over the "not problematic" limit, calculated as Tx in learnNormal
 				current = ZScore(ts,i,j);
 				if(i < txValues.size() && current > txValues.get(i))
@@ -78,6 +79,7 @@ public class ZScoreAlgorithm implements AnomalyDetectionAlgorithm {
 		}
 		return anomalies;
 	}
+
 	@Override
 	public void drawOnGraph(Canvas canvas, String featureName, int timeStamp) {
 		ArrayList<Point> points = new ArrayList<>();
