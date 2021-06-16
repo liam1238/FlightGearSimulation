@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 public class Server {
 
-	ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
-	
+	ArrayList<ClientHandler> clients = new ArrayList<>();
+
 	public interface ClientHandler{
-		public void generate(int id, Socket s);
-		public int getid();
-		public Socket getSocket();
-		public void start();
+		void generate(int id, Socket s);
+		int getId();
+		Socket getSocket();
+		void start();
 	}
 
 	volatile boolean stop;
@@ -21,15 +21,11 @@ public class Server {
 		stop=false;
 	}
 	
-	private Socket openSocketOnPort(int port)
-	{
+	private Socket openSocketOnPort(int port) {
 		try {
 			ServerSocket server = new ServerSocket(port);
 			return server.accept();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		} catch (IOException e) { e.printStackTrace(); return null; }
 	}
 	
 	private void startServer(int port, ClientHandler ch) {
@@ -45,13 +41,10 @@ public class Server {
 	
 	public void stop() {
 		stop=true;
-		for (ClientHandler c : clients)
-		{
+		for (ClientHandler c : clients) {
 			try {
 				c.getSocket().close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (IOException e) { e.printStackTrace(); }
 		}
 	}
 }
