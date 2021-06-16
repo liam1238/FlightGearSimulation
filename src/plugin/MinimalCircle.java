@@ -1,24 +1,3 @@
-/* 
- * Smallest enclosing circle - Library (Java)
- * 
- * Copyright (c) 2020 Project Nayuki
- * https://www.nayuki.io/page/smallest-enclosing-circle
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program (see COPYING.txt and COPYING.LESSER.txt).
- * If not, see <http://www.gnu.org/licenses/>.
- */
-
 package plugin;
 
 import java.util.ArrayList;
@@ -27,12 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public class MinimalCircle {
-
-	/* 
-	 * Returns the smallest circle that encloses all the given points. Runs in expected O(n) time, randomized.
-	 * Note: If 0 points are given, null is returned. If 1 point is given, a circle of radius 0 is returned.
-	 */
-	// Initially: No boundary points known
+	 // Returns the smallest circle that encloses all the given points. Runs in expected O(n) time, randomized.
+	 // Note: If 0 points are given, null is returned. If 1 point is given, a circle of radius 0 is returned.
 	public static Circle makeCircle(List<Point> points) {
 		// Clone list to preserve the caller's data, randomize order
 		List<Point> shuffled = new ArrayList<>(points);
@@ -47,8 +22,7 @@ public class MinimalCircle {
 		}
 		return c;
 	}
-	
-	
+
 	// One boundary point known
 	private static Circle makeCircleOnePoint(List<Point> points, Point p) {
 		Circle c = new Circle(p, 0);
@@ -64,7 +38,6 @@ public class MinimalCircle {
 		return c;
 	}
 	
-	
 	// Two boundary points known
 	private static Circle makeCircleTwoPoints(List<Point> points, Point p, Point q) {
 		Circle circ = makeDiameter(p, q);
@@ -78,7 +51,7 @@ public class MinimalCircle {
 				continue;
 			
 			float cross = pq.cross(r.subtract(p));
-			Circle c = makeCircumcircle(p, q, r);
+			Circle c = makeCircumCircle(p, q, r);
 			if (c == null)
 				continue;
 			else if (cross > 0 && (left == null || pq.cross(c.c.subtract(p)) > pq.cross(left.c.subtract(p))))
@@ -97,15 +70,13 @@ public class MinimalCircle {
 		else
 			return left.r <= right.r ? left : right;
 	}
-	
-	
+
 	static Circle makeDiameter(Point a, Point b) {
 		Point c = new Point((a.x + b.x) / 2, (a.y + b.y) / 2);
 		return new Circle(c, Math.max(c.distance(a), c.distance(b)));
 	}
-	
-	
-	static Circle makeCircumcircle(Point a, Point b, Point c) {
+
+	static Circle makeCircumCircle(Point a, Point b, Point c) {
 		float ox = (Math.min(Math.min(a.x, b.x), c.x) + Math.max(Math.max(a.x, b.x), c.x)) / 2;
 		float oy = (Math.min(Math.min(a.y, b.y), c.y) + Math.max(Math.max(a.y, b.y), c.y)) / 2;
 		float ax = a.x - ox,  ay = a.y - oy;
