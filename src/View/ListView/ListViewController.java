@@ -2,8 +2,7 @@ package View.ListView;
 
 import View.Icons.IconsController;
 import View.Main;
-import ViewModel.ViewModel;
-import application.Utils;
+import ViewModel.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -52,10 +51,10 @@ public class ListViewController {
                 Platform.runLater(() -> {  //update time slider as time goes on...
                     if (Main.isTimeSliding)
                         return;
-                    ((Slider)Utils.getNodeByID("currentFlightTimeSlider")).setValue(Main.viewModel.simulatorApi.getCurrentFlightTime());
-                    ((Label)Utils.getNodeByID("currentFlightTimeLabel")).setText(Utils.msToTimeString(Main.viewModel.simulatorApi.getCurrentFlightTime()));
+                    ((Slider)Utils.getNodeByID("currentFlightTimeSlider")).setValue(ViewModel.simulatorApi.getCurrentFlightTime());
+                    ((Label)Utils.getNodeByID("currentFlightTimeLabel")).setText(Utils.msToTimeString(ViewModel.simulatorApi.getCurrentFlightTime()));
 
-                    if (Main.viewModel.simulatorApi.getCurrentFlightTime() >= Main.viewModel.simulatorApi.getFlightLength()) //when flight finished, reset the timers
+                    if (ViewModel.simulatorApi.getCurrentFlightTime() >= ViewModel.simulatorApi.getFlightLength()) //when flight finished, reset the timers
                         ic.onClickStop();
                 });
             }
@@ -68,16 +67,16 @@ public class ListViewController {
             public void run() {
                 Platform.runLater(() -> {
                     //get flight parameter values and set them to joystick sliders
-                    float rudder = Main.viewModel.simulatorApi.getFlightParameter("rudder");
+                    float rudder = ViewModel.simulatorApi.getFlightParameter("rudder");
                     if (rudder > -999)
                         ((Slider)Utils.getNodeByID("rudderSlider")).setValue(rudder);
-                    float throttle = Main.viewModel.simulatorApi.getFlightParameter("throttle");
+                    float throttle = ViewModel.simulatorApi.getFlightParameter("throttle");
                     if (throttle > -999)
                         ((Slider)Utils.getNodeByID("throttleSlider")).setValue(throttle);
 
                     //get flight parameter values and set them to the joystick circle's offset
-                    float aileron = Main.viewModel.simulatorApi.getFlightParameter("aileron");
-                    float elevator = Main.viewModel.simulatorApi.getFlightParameter("elevator");
+                    float aileron = ViewModel.simulatorApi.getFlightParameter("aileron");
+                    float elevator = ViewModel.simulatorApi.getFlightParameter("elevator");
                     if (aileron > -999 && elevator > -999) {
                         Circle joystick = (Circle)Utils.getNodeByID("joystickCircle");
                         joystick.setTranslateX(aileron*150);
@@ -94,12 +93,12 @@ public class ListViewController {
             public void run() {
                 Platform.runLater(() -> {
                     //get flight parameter values and set them to gauges
-                    ((Label)Utils.getNodeByID("altitudeLabel")).setText(Main.viewModel.simulatorApi.getFlightParameter("altimeter_indicated-altitude-ft")+"");
-                    ((Label)Utils.getNodeByID("airspeedLabel")).setText(Main.viewModel.simulatorApi.getFlightParameter("airspeed-indicator_indicated-speed-kt")+"");
-                    ((Label)Utils.getNodeByID("headingLabel")).setText(Main.viewModel.simulatorApi.getFlightParameter("indicated-heading-deg")+"");
-                    ((Label)Utils.getNodeByID("rollLabel")).setText(Main.viewModel.simulatorApi.getFlightParameter("attitude-indicator_indicated-roll-deg")+"");
-                    ((Label)Utils.getNodeByID("pitchLabel")).setText(Main.viewModel.simulatorApi.getFlightParameter("attitude-indicator_internal-pitch-deg")+"");
-                    ((Label)Utils.getNodeByID("yawLabel")).setText(Main.viewModel.simulatorApi.getFlightParameter("heading-deg")+"");
+                    ((Label)Utils.getNodeByID("altitudeLabel")).setText(ViewModel.simulatorApi.getFlightParameter("altimeter_indicated-altitude-ft")+"");
+                    ((Label)Utils.getNodeByID("airspeedLabel")).setText(ViewModel.simulatorApi.getFlightParameter("airspeed-indicator_indicated-speed-kt")+"");
+                    ((Label)Utils.getNodeByID("headingLabel")).setText(ViewModel.simulatorApi.getFlightParameter("indicated-heading-deg")+"");
+                    ((Label)Utils.getNodeByID("rollLabel")).setText(ViewModel.simulatorApi.getFlightParameter("attitude-indicator_indicated-roll-deg")+"");
+                    ((Label)Utils.getNodeByID("pitchLabel")).setText(ViewModel.simulatorApi.getFlightParameter("attitude-indicator_internal-pitch-deg")+"");
+                    ((Label)Utils.getNodeByID("yawLabel")).setText(ViewModel.simulatorApi.getFlightParameter("heading-deg")+"");
                 });
             }
         }, 0, 100);
@@ -121,32 +120,32 @@ public class ListViewController {
 
                     //create series for param graphs (start from 00:00:05 and move one second for each graph node)
                     XYChart.Series series = new XYChart.Series();
-                    for (int time = 5000; time < Main.viewModel.simulatorApi.getCurrentFlightTime(); time += 1000)
-                        try { series.getData().add(new XYChart.Data(time, Float.parseFloat(Main.viewModel.simulatorApi.getFlightData()[Main.viewModel.simulatorApi
+                    for (int time = 5000; time < ViewModel.simulatorApi.getCurrentFlightTime(); time += 1000)
+                        try { series.getData().add(new XYChart.Data(time, Float.parseFloat(ViewModel.simulatorApi.getFlightData()[ViewModel.simulatorApi
                                 .getFlightDataIndexByMsTime(time)].split(",")[((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel()
                                 .getSelectedIndex()]))); }
                     catch (Exception e) {e.printStackTrace(); }
 
                     ((LineChart)Utils.getNodeByID("paramGraph1")).getData().add(series); //assign series
                     series = new XYChart.Series();
-                    for (int time = 5000; time < Main.viewModel.simulatorApi.getCurrentFlightTime(); time += 1000)
-                        try { series.getData().add(new XYChart.Data(time, Float.parseFloat(Main.viewModel.simulatorApi.getFlightData()[Main.viewModel.simulatorApi
-                                .getFlightDataIndexByMsTime(time)].split(",")[Main.viewModel.simulatorApi.getFlightParameterIndex((Main.viewModel.plugin
+                    for (int time = 5000; time < ViewModel.simulatorApi.getCurrentFlightTime(); time += 1000)
+                        try { series.getData().add(new XYChart.Data(time, Float.parseFloat(ViewModel.simulatorApi.getFlightData()[ViewModel.simulatorApi
+                                .getFlightDataIndexByMsTime(time)].split(",")[ViewModel.simulatorApi.getFlightParameterIndex((ViewModel.plugin
                                 .getCorrelated(((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel().getSelectedItem().toString())))])));
                         } catch (Exception e) {e.printStackTrace(); }
 
                     ((LineChart)Utils.getNodeByID("paramGraph2")).getData().add(series); //assign series
 
                     //draw anomaly graph on canvas via plugin
-                    Main.viewModel.plugin.drawOnGraph((Canvas)Utils.getNodeByID("anomalyCanvas1"), ((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel()
-                            .getSelectedItem().toString(), Main.viewModel.simulatorApi.getFlightDataIndexByMsTime(Main.viewModel.simulatorApi.getCurrentFlightTime()));
+                    ViewModel.plugin.drawOnGraph((Canvas)Utils.getNodeByID("anomalyCanvas1"), ((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel()
+                            .getSelectedItem().toString(), ViewModel.simulatorApi.getFlightDataIndexByMsTime(ViewModel.simulatorApi.getCurrentFlightTime()));
                 });
             }
         }, 0, 100);
 
         //set lists-view values
         List<String> flightData;
-        flightData = Main.viewModel.simulatorApi.getFlightDataList();
+        flightData = ViewModel.simulatorApi.getFlightDataList();
         ((ListView)Utils.getNodeByID("parameterListView")).getItems().addAll(flightData);
         ((ListView)Utils.getNodeByID("classListView")).getItems().addAll(new String[] { "SimpleAnomalyDetector", "ZScoreAlgorithm", "HybridAlgorithm" });
         ((ListView)Utils.getNodeByID("classListView")).getSelectionModel().select(0);
@@ -162,7 +161,7 @@ public class ListViewController {
         //update category axis label
         Main.paramSelected = true;
         ((NumberAxis)Utils.getNodeByID("paramCategoryAxis1")).setLabel((String)(((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel().getSelectedItems().get(0)));
-        ((NumberAxis)Utils.getNodeByID("paramCategoryAxis2")).setLabel(Main.viewModel.plugin.getCorrelated(((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel().getSelectedItem().toString()));
+        ((NumberAxis)Utils.getNodeByID("paramCategoryAxis2")).setLabel(ViewModel.plugin.getCorrelated(((ListView)Utils.getNodeByID("parameterListView")).getSelectionModel().getSelectedItem().toString()));
     }
 
 }
