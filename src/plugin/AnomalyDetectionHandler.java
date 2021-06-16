@@ -1,12 +1,12 @@
 package plugin;
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 
 import plugin.Commands.DefaultIO;
 import plugin.Server.ClientHandler;
@@ -16,75 +16,48 @@ public class AnomalyDetectionHandler implements ClientHandler{
 	public Socket s = null;
 	
 	public class SocketIO implements DefaultIO{
-		private Socket socket = null;
+		private Socket socket;
 		private DataInputStream input = null;
 		private DataOutputStream output = null;
 	    
-	    public SocketIO(Socket nsocket)
-	    {
-	        // establish a connection 
-	    	socket = nsocket;
-	        try
-	        {
-				input = new DataInputStream(socket.getInputStream());
-				output = new DataOutputStream(socket.getOutputStream());
+	    public SocketIO(Socket socket) { // establish a connection
+	    	this.socket = socket;
+	        try {
+				input = new DataInputStream(this.socket.getInputStream());
+				output = new DataOutputStream(this.socket.getOutputStream());
 	        }
-	        catch(UnknownHostException u)
-	        {
-	            System.out.println(u);
-	        }
-	        catch(IOException i)
-	        {
-	            System.out.println(i);
-	        }
+	        catch(UnknownHostException e) { e.printStackTrace(); }
+	        catch(IOException e) { e.printStackTrace(); }
 	    }
 		
 	    @Override
-		public void write(String data)
-		{
+		public void write(String data) {
 			try {
-				output.write(data.getBytes("UTF-8"));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+				output.write(data.getBytes(StandardCharsets.UTF_8));
+			} catch (UnsupportedEncodingException e) { e.printStackTrace();
+			} catch (IOException e) { e.printStackTrace(); }
 		}
 		
 		@Override
-		public void write(float data)
-		{
+		public void write(float data) {
 			try {
 				output.writeFloat(data);
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (UnsupportedEncodingException e) { e.printStackTrace();
+			} catch (IOException e) { e.printStackTrace(); }
 		}
 		
 		@Override
-		public String readText()
-		{
+		public String readText() {
 			try {
 				return input.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return "";
-			}
+			} catch (IOException e) { e.printStackTrace(); return ""; }
 	    }
 		
 		@Override
-		public float readVal()
-		{
+		public float readVal() {
 			try {
 				return input.readFloat();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return -1;
-			}
+			} catch (IOException e) { e.printStackTrace(); return -1; }
 	    }
 	}
 
@@ -96,13 +69,13 @@ public class AnomalyDetectionHandler implements ClientHandler{
 	}
 
 	@Override
-	public void generate(int cid, Socket sock) {
+	public void generate(int cid, Socket socket) {
 		id = cid;
-		s = sock;
+		s = socket;
 	}
 
 	@Override
-	public int getid() {
+	public int getId() {
 		return id;
 	}
 
