@@ -29,7 +29,6 @@ public class ViewModel extends Observable implements Observer {
             simulatorApi.start();
         } catch (IOException | InterruptedException e1) {
             new Alert(Alert.AlertType.ERROR, "Critical error: Could not read config / playback XML / Invalid simulator path in config").showAndWait();
-            return;
         }
     }
 
