@@ -1,4 +1,4 @@
-package application;
+package ViewModel;
 
 import View.Main;
 import javafx.scene.Node;
@@ -64,12 +64,11 @@ public class Utils {
 		}
 
 		try {
-			Main.viewModel.plugin = plugin.newInstance();
-			Main.viewModel.plugin.learnNormal(new File("reg_flight.csv"));
-			Main.viewModel.plugin.detect(new File(Main.viewModel.conf.flight_data_csv));
+			ViewModel.plugin = plugin.newInstance();
+			ViewModel.plugin.learnNormal(new File("reg_flight.csv"));
+			ViewModel.plugin.detect(new File(ViewModel.conf.flight_data_csv));
 		} catch (InstantiationException | IllegalAccessException e) {
 			new Alert(Alert.AlertType.ERROR, "Error: Detection plugin failure").showAndWait();
-			return;
 		}
 	}
 }
