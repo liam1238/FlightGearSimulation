@@ -1,13 +1,13 @@
 package View.Icons;
 
 import View.Main;
-import ViewModel.ViewModel;
-import application.Utils;
+import ViewModel.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.text.DecimalFormat;
 
 public class IconsController {
+
     ViewModel vm;
     @FXML Slider speedMultySlider;
     @FXML Button superSlowButton;
@@ -46,7 +46,7 @@ public class IconsController {
     }
 
     public void onMouseReleasedTimeSlider() {
-        Main.viewModel.simulatorApi.setCurrentFlightTime((int)((Slider)Utils.getNodeByID("currentFlightTimeSlider")).getValue()); //set flight time
+        ViewModel.simulatorApi.setCurrentFlightTime((int)((Slider)Utils.getNodeByID("currentFlightTimeSlider")).getValue()); //set flight time
         Main.isTimeSliding = false;
     }
 
@@ -69,3 +69,4 @@ public class IconsController {
     }
 
 }
+
