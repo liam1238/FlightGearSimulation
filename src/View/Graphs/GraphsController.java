@@ -1,13 +1,15 @@
 package View.Graphs;
+
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.BubbleChart;
 
 public class GraphsController {
 
-    @FXML LineChart CorrelatedChart;
-    @FXML LineChart FeatureChart;
-    @FXML BubbleChart algoChart;
+    @FXML LineChart paramGraph1;
+    @FXML LineChart paramGraph2;
+    @FXML Canvas anomalyCanvas1;
+
 
     public GraphsController() {
         super();
