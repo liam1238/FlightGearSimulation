@@ -1,8 +1,7 @@
 package View;
 
 import Model.Model;
-import ViewModel.ViewModel;
-import application.Utils;
+import ViewModel.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -28,8 +28,7 @@ public class Main extends Application {
 		viewModel = new ViewModel(m);
 		viewModel.start();
 		System.out.println("Connected.");
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		BorderPane root = fxmlLoader.load(getClass().getResource("FlightSimulator.fxml"));
+		BorderPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("FlightSimulator.fxml")));
 		primaryStage.setTitle("Flight Simulator");
 		scene = new Scene(root,900,630);
 		primaryStage.setScene(scene);
