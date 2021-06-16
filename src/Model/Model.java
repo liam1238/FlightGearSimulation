@@ -1,189 +1,104 @@
 package Model;
 
-import AnomalyDetector.SimpleAnomalyDetector;
+import View.Main;
+import application.Utils;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 
-import java.io.*;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Observable;
 
-public class Model extends Observable implements ModelInterface {
-    private SimulatorClient simulatorClient = new SimulatorClient();
-    Map<String, List<String>> properties;
-    List <String> names;
-    List<List<String>> list = new ArrayList<>();
-    Socket fg;
-    int k = 0, size = 0;
-    PrintWriter out2fg;
-    TimeSeries timeSeries = new TimeSeries();
+public class Model extends Observable implements ModelInterface  {
+    public Runnable play,pause,stop, speedUp, speedDown, doubleSpeedUp, doubleSpeedDown;
+    StringProperty CsvPath;
 
-    @Override
-    public Map<String, List <String>> getMap() {
-        return properties;
+    public Model(){
+        CsvPath = new SimpleStringProperty();
     }
 
-    public Model() {
-        int port = 5402;
-        String ip = "127.0.0.1";
-       /* try{
-            fg = new Socket(ip, port);
-            out2fg = new PrintWriter(fg.getOutputStream());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+    @Override
+    public void openCSVFile() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("CSV File Choose");
+        fc.setInitialDirectory(new File("./resources"));
+        FileChooser.ExtensionFilter ef = new FileChooser.ExtensionFilter("CSV Files (*.csv)","*.csv");
+        fc.getExtensionFilters().add(ef);
+        File chosen = fc.showOpenDialog(null);
+        if(chosen==null) {
+            new Alert(Alert.AlertType.ERROR, "Error: Invalid Selected CSV File, please try again").showAndWait();
+            return;
+        }
+        CsvPath.setValue("resources/"+chosen.getName());
+        CsvPath.setValue("anomaly_flight.csv/"+chosen.getName());
+        Main.viewModel.conf.flight_data_csv = chosen.getAbsolutePath();
+        Main.viewModel.conf.playback_speed_multiplayer = 0; //start on pause mode
+
+        System.out.println("trying to start flying...");
+        try { //use API to send flight data
+            Main.viewModel.simulatorApi.loadFlightDataFromCSV(Main.viewModel.conf.flight_data_csv);
+            Main.viewModel.simulatorApi.sendFlightDataToSimulator();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+            new Alert(Alert.AlertType.ERROR, "Error: Could not send flight data to the simulator").showAndWait();
+            return;
+        }
+        System.out.println("start to fly!");
+        Utils.setDisableALL(false); //enable all the icons after we started to fly
+        Utils.getNodeByID("openButton").setDisable(true); //disable open button after first use
+        ((Label)Utils.getNodeByID("totalFlightTimeLabel")).setText(Utils.msToTimeString(Main.viewModel.simulatorApi.getFlightLength())); //update total flight time label
+        ((Slider)Utils.getNodeByID("currentFlightTimeSlider")).setMax(Main.viewModel.simulatorApi.getFlightLength()); //update flight time slider
     }
 
-    public void setAileron(double x) {
-        String[] command = new String[]{"set /controls/flight/aileron " + properties.get("aileron").get((int) x)};
-        out2fg.println(command + " " + x); // ????
-        out2fg.println(command);           // ????
-        out2fg.flush();
-    }
+    @Override //play by setting speed to 1
+    public void play() { changeSpeedAndUpdateGUI(1); }
 
-    public void setElevators(double x) {
-        String[] command = new String[]{"set /controls/flight/elevator " + properties.get("elevator'").get((int) x)};
-        out2fg.println(command + " " + x); // ????
-        out2fg.println(command);           // ????
-        out2fg.flush();
-    }
+    @Override //pause by setting speed to 0
+    public void pause() { changeSpeedAndUpdateGUI(0); }
 
-    public void setRudder(double x) {
-        String[] command = new String[]{"set /controls/flight/rudder " + properties.get("rudder").get((int) x)};
-        out2fg.println(command + " " + x); // ????
-        out2fg.println(command);           // ????
-        out2fg.flush();
-    }
+    @Override  //pause and stop the flight. current time will be 0
+    public void stop() { pause(); Main.viewModel.simulatorApi.setCurrentFlightTime(0); }
 
-    public void setThrottle(double x) {
-        String[] command = new String[]{"set /controls/engines/current-engine/throttle " + properties.get("throttle").get((int) x)};
-        out2fg.println(command + " " + x); // ????
-        out2fg.println(command);           // ????
-        out2fg.flush();
-    }
+    @Override //increase speed
+    public void speedUp() { changeSpeedAndUpdateGUI(1.75f); }
 
-    @Override
-    public void finalize() {
+    @Override //decrease speed
+    public void speedDown() { changeSpeedAndUpdateGUI(0.5f); }
+
+    @Override //increase speed twice
+    public void doubleSpeedUp() { changeSpeedAndUpdateGUI(2f); }
+
+    @Override //decrease speed twice
+    public void doubleSpeedDown() { changeSpeedAndUpdateGUI(0.25f); }
+
+    public void changeTextFiled(){
         try {
-            out2fg.close();
-            fg.close();
-        } catch (IOException e) {
+            //parse the text and update the simulation speed
+            float speedMulty = Float.parseFloat(((TextField) Utils.getNodeByID("speedMultyTextfield")).getText());
+            if (speedMulty < 0 || speedMulty > 5)
+                throw new Exception("Invalid speed value");
+            changeSpeedAndUpdateGUI(speedMulty);
+        } catch(Exception e) {
             e.printStackTrace();
-        }
+            new Alert(Alert.AlertType.ERROR, "Error: Invalid speed multiplayer value: must be a number between 0 and 5").showAndWait();
+            changeSpeedAndUpdateGUI(1); } //change speed back to 1
     }
 
-    @Override
-    public void openCSVFile(String propertiesFileName) {
-        // simulatorClient = new SimulatorClient();
-        properties = new LinkedHashMap<>();
-        String sp[];
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(propertiesFileName));
-            String line;
-            while ((line = in.readLine()) != null) {
-                sp = line.split(",");
-                names = new ArrayList<>();
-                names.addAll(Arrays.asList(sp));
-                list.add(k,names);
-                k++;
-            }
-            size = names.size();
-            in.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (int i=0; i<size;i++) {
-            names = new ArrayList<>();
-            for (int j = 1; j < list.size(); j++)
-                names.add(String.valueOf(list.get(j).get(i)));
-            properties.put(list.get(0).get(i), names);
-        }
-        //int x = 0; //just for debug
-        setChanged();
-        notifyObservers();
+    public void changeSpeedAndUpdateGUI(float speedMulty) {
+        speedMulty = Float.parseFloat((new DecimalFormat("0.00")).format(speedMulty));
+        ((TextField)Utils.getNodeByID("speedMultyTextfield")).setText(speedMulty + ""); //update speed text field
+        ((Slider)Utils.getNodeByID("speedMultySlider")).setValue((int)(speedMulty * 100)); //update speed slider
+        Main.viewModel.simulatorApi.setSimulationSpeed(speedMulty); //set simulation speed
     }
 
-    @Override
-    public TimeSeries setTimeSeries(String CSVFile) {
-        timeSeries.readFromFile(CSVFile);
-        setChanged();
-        notifyObservers();
-        return timeSeries;
-    }
-
-    @Override
-    public void setAnomalyDetector(TimeSeries timeSeries) {
-        SimpleAnomalyDetector anomalyDetector = new SimpleAnomalyDetector();
-        anomalyDetector.learnNormal(timeSeries);
-        anomalyDetector.detect(timeSeries);
-        anomalyDetector.getNormalModel();
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void play(int start, int rate) {
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void pause() {
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void stop() {
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void speedUp(){
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void speedDown(){
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void doubleSpeedUp(){
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public void doubleSpeedDown(){
-
-
-        setChanged();
-        notifyObservers();
-    }
-
-    public void send(String[] data)
-    {
-        simulatorClient.Send(data);
+    public void changeInSpeedSlider(){
+        changeSpeedAndUpdateGUI(((float)(((Slider)Utils.getNodeByID("speedMultySlider")).getValue()))/100); //set flight speed
     }
 
 }
-
