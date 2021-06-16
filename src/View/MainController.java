@@ -23,6 +23,5 @@ public class MainController implements Initializable {
         MyJoystick.elevators = new SimpleDoubleProperty();
         MyJoystick.rudder = new SimpleDoubleProperty();
         MyJoystick.throttle = new SimpleDoubleProperty();
-
     }
 }
