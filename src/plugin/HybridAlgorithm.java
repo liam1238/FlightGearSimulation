@@ -14,20 +14,18 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 	private List<AnomalyReport> res;//final result
 	private TimeSeries tsAlg1, tsAlg2, mainTs;//for each algorithm
 
-	//ArrayLists below are to create a separate TimeSeries object for each algorithm, from the original TimeSeries object created
-	//from the file
+	//ArrayLists below are to create a separate TimeSeries object for each algorithm, from the original TimeSeries object created from the file
 	public ArrayList<Point> circlePoints = new ArrayList<>();
-	public ArrayList<CircleColumnPairing> arr = new ArrayList<CircleColumnPairing>();
-	public ArrayList<String> namesForAlg2 = new ArrayList<String>();
-	public ArrayList<String> namesForAlg1 = new ArrayList<String>();
-	public ArrayList<ArrayList<Float>> forAlg2 = new ArrayList<ArrayList<Float>>();
-	public ArrayList<ArrayList<Float>> forAlg1 = new ArrayList<ArrayList<Float>>();
-	public ArrayList<String> namesBetween = new ArrayList<String>();
-	public ArrayList<ArrayList<Float>> forAlgBetween = new ArrayList<ArrayList<Float>>();
-	//parameters for high and low correlation
-	public float highCorr, lowCorr;
-	public HybridAlgorithm()
-	{
+	public ArrayList<CircleColumnPairing> arr = new ArrayList<>();
+	public ArrayList<String> namesForAlg2 = new ArrayList<>();
+	public ArrayList<String> namesForAlg1 = new ArrayList<>();
+	public ArrayList<ArrayList<Float>> forAlg2 = new ArrayList<>();
+	public ArrayList<ArrayList<Float>> forAlg1 = new ArrayList<>();
+	public ArrayList<String> namesBetween = new ArrayList<>();
+	public ArrayList<ArrayList<Float>> forAlgBetween = new ArrayList<>();
+	public float highCorr, lowCorr; //parameters for high and low correlation
+
+	public HybridAlgorithm() {
 		sad = new SimpleAnomalyDetector();
 		zsa = new ZScoreAlgorithm();
 		//default values
@@ -35,21 +33,18 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 		lowCorr = (float) 0.5;
 	}
 
-	public HybridAlgorithm(float highCorr,float lowCorr)
-	{
+	public HybridAlgorithm(float highCorr,float lowCorr) {
 		sad = new SimpleAnomalyDetector();
 		zsa = new ZScoreAlgorithm();
 		this.highCorr = highCorr;
 		this.lowCorr = lowCorr;
 	}
 
-	public int findTheAlgo(String name) //determines which algorithm should be used on the feature "name"
-	{
+	public int findTheAlgo(String name) {	//determines which algorithm should be used on the feature "name"
 		float maxCorr = 0;
-		for(int i = 0; i < sad.getCorrelated().size(); i++)
-		{
-			if((sad.getCorrelated().get(i).feature1.compareTo(name) == 0 || sad.getCorrelated().get(i).feature2.compareTo(name) == 0) && Math.abs(sad.getCorrelated().get(i).corrlation) > maxCorr)
-				maxCorr = Math.abs(sad.getCorrelated().get(i).corrlation);
+		for(int i = 0; i < sad.getCorrelated().size(); i++) {
+			if((sad.getCorrelated().get(i).feature1.compareTo(name) == 0 || sad.getCorrelated().get(i).feature2.compareTo(name) == 0) && Math.abs(sad.getCorrelated().get(i).correlation) > maxCorr)
+				maxCorr = Math.abs(sad.getCorrelated().get(i).correlation);
 		}
 		if(maxCorr >= highCorr)
 			return 1;
@@ -61,25 +56,19 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 		return -1;
 	}
 
-	public void learnNormal (File trainFile)//sends each TimeSeries file to learnNormal in it's specific algorithm
-	{
+	public void learnNormal (File trainFile){	//sends each TimeSeries file to learnNormal in it's specific algorithm
 		mainTs = new TimeSeries(trainFile.toString());
 		sad.learnNormal(mainTs);
-		for(int i = 0; i < mainTs.valueNames.size(); i++)
-		{
+		for(int i = 0; i < mainTs.valueNames.size(); i++) {
 			int res = findTheAlgo(mainTs.valueNames.get(i));
-			if(res == 1)
-			{
+			if(res == 1) {
 				namesForAlg2.add(mainTs.getValueNames().get(i));
 				forAlg2.add(mainTs.getValues().get(i));
-			}
-			else if(res == -1)
-			{
+			} else if(res == -1) {
 				namesForAlg1.add(mainTs.getValueNames().get(i));
 				forAlg1.add(mainTs.getValues().get(i));
 			}
-			else
-			{
+			else {
 				namesBetween.add(mainTs.getValueNames().get(i));
 				forAlgBetween.add(mainTs.getValues().get(i));
 			}
@@ -94,8 +83,7 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 				arr.add(new CircleColumnPairing(corr.c,corr.feature1,corr.feature2));
 	}
 
-	public List<AnomalyReport> detect(File testFile)//sending each TimeSeries created to its specific "Detect" function, on alg1 and 2
-	{
+	public List<AnomalyReport> detect(File testFile){	//sending each TimeSeries created to its specific "Detect" function, on alg1 and 2
 		sad.detect(testFile);
 		zsa.detect(testFile);
 		
@@ -104,15 +92,12 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 		mainTs = new TimeSeries(testFile.toString());
 		ArrayList<ArrayList<Float>> allFeatureOnes = new ArrayList<ArrayList<Float>>();
 		ArrayList<ArrayList<Float>> allFeatureTwos = new ArrayList<ArrayList<Float>>();
-		for(CircleColumnPairing ccp : arr)
-		{
+		for(CircleColumnPairing ccp : arr) {
 			allFeatureOnes.add(mainTs.getValues().get(mainTs.getValueNames().indexOf(ccp.ft1)));
 			allFeatureTwos.add(mainTs.getValues().get(mainTs.getValueNames().indexOf(ccp.ft2)));
 		}
-		for(int i = 0; i < allFeatureOnes.size(); i++)
-		{
-			for(int j = 0; j < allFeatureOnes.get(i).size(); j++)
-			{
+		for(int i = 0; i < allFeatureOnes.size(); i++) {
+			for(int j = 0; j < allFeatureOnes.get(i).size(); j++) {
 				Point p = new Point(allFeatureOnes.get(i).get(j),allFeatureTwos.get(i).get(j));
 				circlePoints.add(p);
 				if(!arr.get(i).c.contains(p))
@@ -128,9 +113,7 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 			sad.drawOnGraph(canvas, featureName, timeStamp);
 		else if(findTheAlgo(featureName) == -1)
 			zsa.drawOnGraph(canvas, featureName, timeStamp);
-		else
-		{
-			//draw all points in circlePoints until index timeStamp, xValue is p.x and yValue is p.y
+		else { //draw all points in circlePoints until index timeStamp, xValue is p.x and yValue is p.y
 			Circle circle = null;
 			for(CircleColumnPairing cop : arr)
 				if(cop.ft1.compareTo(featureName) == 0 || cop.ft2.compareTo(featureName) == 0)
@@ -141,7 +124,7 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 			canvas.getGraphicsContext2D().strokeOval(Math.round(Math.abs(circle.c.x-circle.r)) % 200, Math.round(Math.abs(circle.c.y-circle.r)) % 200, (circle.r*2) % 200, (circle.r*2) % 200);
 			//draw points
 			canvas.getGraphicsContext2D().setStroke(Color.RED);
-			for(Point  p : circlePoints)
+			for(Point p : circlePoints)
 				canvas.getGraphicsContext2D().strokeLine(p.x % 200, p.y % 200, p.x % 200, p.y % 200);
 			
 			ArrayList<AnomalyReport> list = new ArrayList<>();
@@ -151,7 +134,6 @@ public class HybridAlgorithm implements AnomalyDetectionAlgorithm{
 				if(!value.description.contains(featureName) || value.timeStamp > timeStamp)
 					iterator.remove();
 			}
-
 			//draw anomaly points
 			for(AnomalyReport ar : list)
 				canvas.getGraphicsContext2D().strokeLine(ar.x % 200, ar.y % 200, ar.x % 200, ar.y % 200);
