@@ -1,27 +1,28 @@
 package View.Graphs;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.BubbleChart;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.LineChart;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
-public class Graphs extends AnchorPane
+public class Graphs extends HBox
 {
-    public BubbleChart BChart;
-    public LineChart CChart;
-    public LineChart fChart;
+    public LineChart paramGraph1;
+    public LineChart paramGraph2;
+    public Canvas anomalyCanvas1;
 
     public Graphs() {
         super();
+        HBox graph;
         try {
             FXMLLoader fxl = new FXMLLoader();
-            AnchorPane graph = fxl.load(getClass().getResource("Graphs.fxml").openStream());
+            graph = fxl.load(getClass().getResource("Graphs.fxml").openStream());
             GraphsController graphsController = fxl.getController();
-            BChart = graphsController.algoChart;
-            CChart = graphsController.CorrelatedChart;
-            fChart = graphsController.FeatureChart;
+            paramGraph1 = graphsController.paramGraph1;
+            paramGraph2 = graphsController.paramGraph2;
+            anomalyCanvas1 = graphsController.anomalyCanvas1;
             this.getChildren().add(graph);
 
         } catch (IOException e) { e.printStackTrace(); }
