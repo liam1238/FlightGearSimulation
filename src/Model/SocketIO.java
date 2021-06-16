@@ -21,8 +21,8 @@ public class SocketIO {
 			input = new DataInputStream(this.socket.getInputStream());
 			out = new DataOutputStream(this.socket.getOutputStream());
 		}
-		catch(UnknownHostException e) { e.printStackTrace(); return; }
-		catch(IOException e) { e.printStackTrace(); return; }
+		catch(UnknownHostException e) { e.printStackTrace(); }
+		catch(IOException e) { e.printStackTrace(); }
 	}
 
 	public SocketIO(String ip, int port) throws IOException {
@@ -39,8 +39,8 @@ public class SocketIO {
 			if (data.charAt(data.length()-1) != '\n') //drop a line if there isn't one
 				data += '\n';
 			out.write(data.getBytes(StandardCharsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {e.printStackTrace();return; }
-		catch (IOException e) {e.printStackTrace();return; }
+		} catch (UnsupportedEncodingException e) {e.printStackTrace(); }
+		catch (IOException e) {e.printStackTrace(); }
 	}
 	
 	public String readline() {
@@ -52,7 +52,7 @@ public class SocketIO {
 	public void close() {
 		try {
 			socket.close();
-		} catch (IOException e) { e.printStackTrace(); return; }
+		} catch (IOException e) { e.printStackTrace(); }
 	}
 
 }
