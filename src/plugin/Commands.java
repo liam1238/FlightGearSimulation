@@ -1,18 +1,8 @@
 package plugin;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
-import plugin.Commands.DefaultIO;
 
 public class Commands {
 	
@@ -176,7 +166,7 @@ public class Commands {
 			String realTime = upload();
 			dio.write("Upload complete.\n");
 			
-			float[] rates = sharedState.anomalydetector.anylizeTimesteps(realTime);
+			float[] rates = sharedState.anomalydetector.analyzeTimestamps(realTime);
 			//rounding 3 digits
 			if (String.valueOf(rates[0]).length() > 5)
 				rates[0] = Float.parseFloat(String.valueOf(rates[0]).substring(0, 5));
