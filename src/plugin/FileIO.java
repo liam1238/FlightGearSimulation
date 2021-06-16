@@ -1,15 +1,8 @@
 package plugin;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.Scanner;
-
 import plugin.Commands.DefaultIO;
+import java.io.*;
+import java.util.Scanner;
 
 public class FileIO implements DefaultIO{
 
@@ -19,11 +12,8 @@ public class FileIO implements DefaultIO{
 		try {
 			in=new Scanner(new FileReader(inputFileName));
 			out=new PrintWriter(new FileWriter(outputFileName));			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (FileNotFoundException e) { e.printStackTrace();
+		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
 	@Override
