@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.layout.BorderPane?>
 <?import View.Graphs.*?>
-
-<?import View.Joystick.*?>
-<?import View.OpenFiles.*?>
-<?import View.ListView.*?>
 <?import View.Icons.*?>
-<BorderPane prefHeight="200" prefWidth="60" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.Controller">
-    <top>
-        <OpenFiles fx:id="MyOpenFiles"/>
-    </top>
+<?import View.Joystick.*?>
+<?import View.ListView.*?>
+
+<BorderPane prefHeight="200" prefWidth="60" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainController">
     <left>
         <ListView fx:id="MyListView" prefWidth="200.0"/>
     </left>
