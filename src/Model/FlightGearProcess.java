@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-//A proxy process for the FlightGear flight simulator
+//A proxy process for the simulator
 public class FlightGearProcess extends Process {
 	Process flightGear;
 
