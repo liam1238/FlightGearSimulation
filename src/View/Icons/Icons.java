@@ -1,38 +1,29 @@
 package View.Icons;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class Icons extends AnchorPane {
-    public Button back;
-    public Button doubleBack;
-    public Button doubleForward;
-    public StringProperty FlightStatus;
-    public Button forward;
-    public Button pause;
-    public Button play;
-    public Button stop;
-    public Slider videoSlider;
-    public ChoiceBox videoSpeed;
-    public Label videoTime;
-    public DoubleProperty forwardCnt;
-    public SimpleDoubleProperty forward2Cnt;
-    public SimpleDoubleProperty backwardCnt;
-    public SimpleDoubleProperty backward2Cnt;
+
+    public Button superSlowButton;
+    public Button slowButton;
+    public Button playButton;
+    public Button pauseButton;
+    public Button stopButton;
+    public Button fastButton;
+    public Button superFastButton;
+    public TextField speedMultyTextfield;
+    public Slider currentFlightTimeSlider;
+    public Label currentFlightTimeLabel;
+    public Slider speedMultySlider;
 
     public Icons() {
         super();
@@ -40,24 +31,18 @@ public class Icons extends AnchorPane {
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane playerIcons = fxl.load(getClass().getResource("Icons.fxml").openStream());
             IconsController IconsController = fxl.getController();
-            back = IconsController.back;
-            doubleBack = IconsController.doubleBack;
-            doubleForward = IconsController.doubleForward;
-            FlightStatus = IconsController.FlightStatus;
-            forward = IconsController.forward;
-            pause = IconsController.pause;
-            play = IconsController.play;
-            stop = IconsController.stop;
-            videoSlider = IconsController.videoSlider;
-            videoSpeed = IconsController.videoSpeed;
-            ObservableList<Number> s = FXCollections.observableArrayList(0.5, 1.0, 1.5, 2.0);
-            videoSpeed.setItems(s);
-            videoSpeed.setValue(1.0);
-            videoTime = IconsController.videoTime;
-            forwardCnt = IconsController.forwardCnt;
-            forward2Cnt = IconsController.forward2Cnt;
-            backwardCnt = IconsController.backwardCnt;
-            backward2Cnt = IconsController.backward2Cnt;
+            slowButton = IconsController.slowButton;
+            superSlowButton = IconsController.superSlowButton;
+            superFastButton = IconsController.superFastButton;
+            fastButton = IconsController.fastButton;
+            pauseButton = IconsController.pauseButton;
+            playButton = IconsController.playButton;
+            stopButton = IconsController.stopButton;
+            speedMultyTextfield = IconsController.speedMultyTextfield;
+            currentFlightTimeLabel = IconsController.currentFlightTimeLabel;
+            currentFlightTimeSlider = IconsController.currentFlightTimeSlider;
+            speedMultySlider = IconsController.speedMultySlider;
+
             this.getChildren().add(playerIcons);
         } catch (IOException e) { e.printStackTrace(); }
 
@@ -91,34 +76,28 @@ public class Icons extends AnchorPane {
         view7.setFitHeight(35);
         view7.setPreserveRatio(true);
         //Setting the location of the buttons
-        doubleBack.setTranslateX(20);
-        doubleBack.setTranslateY(25);
-        back.setTranslateX(80);
-        back.setTranslateY(25);
-        play.setTranslateX(140);
-        play.setTranslateY(25);
-        pause.setTranslateX(200);
-        pause.setTranslateY(25);
-        stop.setTranslateX(260);
-        stop.setTranslateY(25);
-        forward.setTranslateX(320);
-        forward.setTranslateY(25);
-        doubleForward.setTranslateX(380);
-        doubleForward.setTranslateY(25);
+        superSlowButton.setTranslateX(20);
+        superSlowButton.setTranslateY(25);
+        slowButton.setTranslateX(80);
+        slowButton.setTranslateY(25);
+        playButton.setTranslateX(140);
+        playButton.setTranslateY(25);
+        pauseButton.setTranslateX(200);
+        pauseButton.setTranslateY(25);
+        stopButton.setTranslateX(260);
+        stopButton.setTranslateY(25);
+        fastButton.setTranslateX(320);
+        fastButton.setTranslateY(25);
+        superFastButton.setTranslateX(380);
+        superFastButton.setTranslateY(25);
         //Setting a graphic to the button
-        doubleBack.setGraphic(view1);
-        back.setGraphic(view2);
-        play.setGraphic(view3);
-        pause.setGraphic(view4);
-        stop.setGraphic(view5);
-        forward.setGraphic(view6);
-        doubleForward.setGraphic(view7);
+        superSlowButton.setGraphic(view1);
+        slowButton.setGraphic(view2);
+        playButton.setGraphic(view3);
+        pauseButton.setGraphic(view4);
+        stopButton.setGraphic(view5);
+        fastButton.setGraphic(view6);
+        superFastButton.setGraphic(view7);
     }
 
-    public String toStringTime(Double object) {
-        long seconds = object.longValue();
-        long minutes = TimeUnit.SECONDS.toMinutes(seconds);
-        long remainingSeconds = seconds - TimeUnit.MINUTES.toSeconds(minutes);
-        return String.format("%02d", minutes) + ":" + String.format("%02d", remainingSeconds);
-    }
 }
