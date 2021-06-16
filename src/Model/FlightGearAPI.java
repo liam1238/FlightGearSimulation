@@ -175,9 +175,7 @@ public class FlightGearAPI implements SimulatorAPI {
 		dataOutThread = new Thread(()->{
 			try {
 				dataHandler.sendFlightDataToSimulator();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			} catch (InterruptedException e) { e.printStackTrace(); }
 		});
 		dataOutThread.start();
 	}
