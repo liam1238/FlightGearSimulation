@@ -1,11 +1,8 @@
-package AnomalyDetector;
-
-import Model.TimeSeries;
+package plugin;
 
 import java.util.List;
 
 public interface TimeSeriesAnomalyDetector {
-    public void learnNormal(TimeSeries ts);
-    public List<AnomalyReport> detect (TimeSeries ts);
-
+	void learnNormal(TimeSeries ts);
+	List<AnomalyReport> detect(TimeSeries ts);
 }
