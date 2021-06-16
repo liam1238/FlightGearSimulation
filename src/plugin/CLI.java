@@ -22,8 +22,7 @@ public class CLI {
 		commands.add(c.new CommandFive());
 	}
 	
-	private void display()
-	{
+	private void display() {
 		dio.write("Welcome to the Anomaly Detection Server.\n");
 		dio.write("Please choose an option:\n");
 		
@@ -35,12 +34,10 @@ public class CLI {
 	}
 	
 	public void start() {
-		while (true)
-		{
+		while (true) {
 			display();
 			int input = Integer.parseInt(dio.readText());
-			if (input == commands.size()+1)
-			{
+			if (input == commands.size()+1) {
 				dio.write("bye\n");
 				break;
 			}
