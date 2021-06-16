@@ -42,7 +42,6 @@ public class Icons extends AnchorPane {
             currentFlightTimeLabel = IconsController.currentFlightTimeLabel;
             currentFlightTimeSlider = IconsController.currentFlightTimeSlider;
             speedMultySlider = IconsController.speedMultySlider;
-
             this.getChildren().add(playerIcons);
         } catch (IOException e) { e.printStackTrace(); }
 
