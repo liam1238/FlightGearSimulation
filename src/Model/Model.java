@@ -1,7 +1,6 @@
 package Model;
 
-import View.Main;
-import application.Utils;
+import ViewModel.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
@@ -16,7 +15,7 @@ import java.text.DecimalFormat;
 import java.util.Observable;
 
 public class Model extends Observable implements ModelInterface  {
-    public Runnable play,pause,stop, speedUp, speedDown, doubleSpeedUp, doubleSpeedDown;
+    //public Runnable play,pause,stop, speedUp, speedDown, doubleSpeedUp, doubleSpeedDown;
     StringProperty CsvPath;
 
     public Model(){
@@ -37,13 +36,13 @@ public class Model extends Observable implements ModelInterface  {
         }
         CsvPath.setValue("resources/"+chosen.getName());
         CsvPath.setValue("anomaly_flight.csv/"+chosen.getName());
-        Main.viewModel.conf.flight_data_csv = chosen.getAbsolutePath();
-        Main.viewModel.conf.playback_speed_multiplayer = 0; //start on pause mode
+        ViewModel.conf.flight_data_csv = chosen.getAbsolutePath();
+        ViewModel.conf.playback_speed_multiplayer = 0; //start on pause mode
 
         System.out.println("trying to start flying...");
         try { //use API to send flight data
-            Main.viewModel.simulatorApi.loadFlightDataFromCSV(Main.viewModel.conf.flight_data_csv);
-            Main.viewModel.simulatorApi.sendFlightDataToSimulator();
+            ViewModel.simulatorApi.loadFlightDataFromCSV(ViewModel.conf.flight_data_csv);
+            ViewModel.simulatorApi.sendFlightDataToSimulator();
         } catch (IOException e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Error: Could not send flight data to the simulator").showAndWait();
@@ -52,8 +51,8 @@ public class Model extends Observable implements ModelInterface  {
         System.out.println("start to fly!");
         Utils.setDisableALL(false); //enable all the icons after we started to fly
         Utils.getNodeByID("openButton").setDisable(true); //disable open button after first use
-        ((Label)Utils.getNodeByID("totalFlightTimeLabel")).setText(Utils.msToTimeString(Main.viewModel.simulatorApi.getFlightLength())); //update total flight time label
-        ((Slider)Utils.getNodeByID("currentFlightTimeSlider")).setMax(Main.viewModel.simulatorApi.getFlightLength()); //update flight time slider
+        ((Label)Utils.getNodeByID("totalFlightTimeLabel")).setText(Utils.msToTimeString(ViewModel.simulatorApi.getFlightLength())); //update total flight time label
+        ((Slider)Utils.getNodeByID("currentFlightTimeSlider")).setMax(ViewModel.simulatorApi.getFlightLength()); //update flight time slider
     }
 
     @Override //play by setting speed to 1
@@ -63,7 +62,7 @@ public class Model extends Observable implements ModelInterface  {
     public void pause() { changeSpeedAndUpdateGUI(0); }
 
     @Override  //pause and stop the flight. current time will be 0
-    public void stop() { pause(); Main.viewModel.simulatorApi.setCurrentFlightTime(0); }
+    public void stop() { pause(); ViewModel.simulatorApi.setCurrentFlightTime(0); }
 
     @Override //increase speed
     public void speedUp() { changeSpeedAndUpdateGUI(1.75f); }
@@ -94,11 +93,13 @@ public class Model extends Observable implements ModelInterface  {
         speedMulty = Float.parseFloat((new DecimalFormat("0.00")).format(speedMulty));
         ((TextField)Utils.getNodeByID("speedMultyTextfield")).setText(speedMulty + ""); //update speed text field
         ((Slider)Utils.getNodeByID("speedMultySlider")).setValue((int)(speedMulty * 100)); //update speed slider
-        Main.viewModel.simulatorApi.setSimulationSpeed(speedMulty); //set simulation speed
+        ViewModel.simulatorApi.setSimulationSpeed(speedMulty); //set simulation speed
     }
 
     public void changeInSpeedSlider(){
         changeSpeedAndUpdateGUI(((float)(((Slider)Utils.getNodeByID("speedMultySlider")).getValue()))/100); //set flight speed
     }
+
+
 
 }
