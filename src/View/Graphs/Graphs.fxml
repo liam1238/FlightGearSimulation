@@ -16,17 +16,17 @@
         <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                 <children>
-                    <LineChart fx:id="paramGraph1" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="195.0">
+                    <LineChart fx:id="Graph1" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="127.0" prefWidth="195.0">
                         <xAxis>
-                            <NumberAxis fx:id="paramCategoryAxis1" animated="false" forceZeroInRange="false" label="parameter 1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" translateY="18.0" />
+                            <NumberAxis fx:id="chosenParameter" animated="false" forceZeroInRange="false" label="chosen parameter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" translateY="18.0" />
                         </xAxis>
                         <yAxis>
                             <NumberAxis animated="false" forceZeroInRange="false" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" />
                         </yAxis>
                     </LineChart>
-                    <LineChart fx:id="paramGraph2" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="201.0">
+                    <LineChart fx:id="Graph2" animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="126.0" prefWidth="201.0">
                         <xAxis>
-                            <NumberAxis fx:id="paramCategoryAxis2" animated="false" forceZeroInRange="false" label="parameter 2" prefHeight="0.0" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" translateY="18.0" />
+                            <NumberAxis fx:id="correlatedParameter" animated="false" forceZeroInRange="false" label="correlated parameter" prefHeight="0.0" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" translateY="18.0" />
                         </xAxis>
                         <yAxis>
                             <NumberAxis animated="false" forceZeroInRange="false" minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" />
@@ -34,14 +34,14 @@
                     </LineChart>
                 </children>
             </HBox>
-            <Pane>
+            <Pane prefHeight="193.0" prefWidth="303.0">
                <children>
-                  <Canvas fx:id="anomalyCanvas1" height="369.0" layoutX="120.0" layoutY="-98.0" rotate="-90.0" width="144.0" />
-                  <Label layoutX="128.0" layoutY="162.0" prefHeight="17.0" prefWidth="105.0" text="Anomaly Graph">
+                  <Label layoutX="128.0" layoutY="159.0" prefHeight="17.0" prefWidth="105.0" text="Anomaly Graph">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font>
                   </Label>
+                  <Canvas fx:id="Canvas" height="369.0" layoutX="152.0" layoutY="-96.0" rotate="-90.0" width="144.0" />
                </children>
             </Pane>
         </children>
