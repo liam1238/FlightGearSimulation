@@ -13,17 +13,17 @@ import java.io.IOException;
 
 public class Icons extends AnchorPane {
 
-    public Button superSlowButton;
-    public Button slowButton;
+    public Button doubleSpeedDownButton;
+    public Button speedDownButton;
     public Button playButton;
     public Button pauseButton;
     public Button stopButton;
-    public Button fastButton;
-    public Button superFastButton;
-    public TextField speedMultyTextfield;
-    public Slider currentFlightTimeSlider;
-    public Label currentFlightTimeLabel;
-    public Slider speedMultySlider;
+    public Button speedUpButton;
+    public Button doubleSpeedUpButton;
+    public TextField speedText;
+    public Slider FlightSlider;
+    public Label currentTimeLabel;
+    public Slider speedSlider;
 
     public Icons() {
         super();
@@ -31,17 +31,17 @@ public class Icons extends AnchorPane {
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane playerIcons = fxl.load(getClass().getResource("Icons.fxml").openStream());
             IconsController IconsController = fxl.getController();
-            slowButton = IconsController.slowButton;
-            superSlowButton = IconsController.superSlowButton;
-            superFastButton = IconsController.superFastButton;
-            fastButton = IconsController.fastButton;
+            speedDownButton = IconsController.speedDownButton;
+            doubleSpeedDownButton = IconsController.doubleSpeedDownButton;
+            doubleSpeedUpButton = IconsController.doubleSpeedUpButton;
+            speedUpButton = IconsController.speedUpButton;
             pauseButton = IconsController.pauseButton;
             playButton = IconsController.playButton;
             stopButton = IconsController.stopButton;
-            speedMultyTextfield = IconsController.speedMultyTextfield;
-            currentFlightTimeLabel = IconsController.currentFlightTimeLabel;
-            currentFlightTimeSlider = IconsController.currentFlightTimeSlider;
-            speedMultySlider = IconsController.speedMultySlider;
+            speedText = IconsController.SpeedText;
+            currentTimeLabel = IconsController.LabelCurrentTime;
+            FlightSlider = IconsController.FlightSlider;
+            speedSlider = IconsController.SpeedSlider;
             this.getChildren().add(playerIcons);
         } catch (IOException e) { e.printStackTrace(); }
 
@@ -75,28 +75,28 @@ public class Icons extends AnchorPane {
         view7.setFitHeight(35);
         view7.setPreserveRatio(true);
         //Setting the location of the buttons
-        superSlowButton.setTranslateX(20);
-        superSlowButton.setTranslateY(25);
-        slowButton.setTranslateX(80);
-        slowButton.setTranslateY(25);
+        doubleSpeedDownButton.setTranslateX(20);
+        doubleSpeedDownButton.setTranslateY(25);
+        speedDownButton.setTranslateX(80);
+        speedDownButton.setTranslateY(25);
         playButton.setTranslateX(140);
         playButton.setTranslateY(25);
         pauseButton.setTranslateX(200);
         pauseButton.setTranslateY(25);
         stopButton.setTranslateX(260);
         stopButton.setTranslateY(25);
-        fastButton.setTranslateX(320);
-        fastButton.setTranslateY(25);
-        superFastButton.setTranslateX(380);
-        superFastButton.setTranslateY(25);
+        speedUpButton.setTranslateX(320);
+        speedUpButton.setTranslateY(25);
+        doubleSpeedUpButton.setTranslateX(380);
+        doubleSpeedUpButton.setTranslateY(25);
         //Setting a graphic to the button
-        superSlowButton.setGraphic(view1);
-        slowButton.setGraphic(view2);
+        doubleSpeedDownButton.setGraphic(view1);
+        speedDownButton.setGraphic(view2);
         playButton.setGraphic(view3);
         pauseButton.setGraphic(view4);
         stopButton.setGraphic(view5);
-        fastButton.setGraphic(view6);
-        superFastButton.setGraphic(view7);
+        speedUpButton.setGraphic(view6);
+        doubleSpeedUpButton.setGraphic(view7);
     }
 
 }
