@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 //A proxy process for the simulator
-public class FlightGearProcess extends Process {
+public class FlightProcess extends Process {
 	Process flightGear;
 
 //	  Starts the FlightGear process in it's own directory, with arguments to open sockets for communication to it
-	public FlightGearProcess(String path, int inPort, int outPort) throws IOException {
+	public FlightProcess(String path, int inPort, int outPort) throws IOException {
 		ProcessBuilder pb = new ProcessBuilder(path + "/bin/fgfs.exe", "--generic=socket,in," + (FlightGearAPI.defaultDelay / 10)
 				+ ",127.0.0.1," + outPort + ",tcp,playback_small", "--generic=socket,out," + (FlightGearAPI.defaultDelay / 10) + ",127.0.0.1,"
 				+ inPort + ",tcp,playback_small", "--fdm=null");
