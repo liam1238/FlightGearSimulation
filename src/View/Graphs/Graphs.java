@@ -1,17 +1,11 @@
 package View.Graphs;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.chart.LineChart;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
-public class Graphs extends HBox
-{
-    public LineChart paramGraph1;
-    public LineChart paramGraph2;
-    public Canvas anomalyCanvas1;
+public class Graphs extends HBox {
 
     public Graphs() {
         super();
@@ -20,11 +14,7 @@ public class Graphs extends HBox
             FXMLLoader fxl = new FXMLLoader();
             graph = fxl.load(getClass().getResource("Graphs.fxml").openStream());
             GraphsController graphsController = fxl.getController();
-            paramGraph1 = graphsController.paramGraph1;
-            paramGraph2 = graphsController.paramGraph2;
-            anomalyCanvas1 = graphsController.anomalyCanvas1;
             this.getChildren().add(graph);
-
         } catch (IOException e) { e.printStackTrace(); }
     }
 }
