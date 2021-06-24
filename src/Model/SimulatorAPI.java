@@ -8,15 +8,17 @@ public interface SimulatorAPI {
 
 	void start() throws IOException, InterruptedException;
 	void finalize();
-	void loadFlightDataFromCSV(String filename) throws IOException;
-	float getFlightParameter(String paramName);
+	void loadFromCSV(String filename) throws IOException;
+	float getParameter(String name);
 	void setSimulationSpeed(float speedMultiPlayer);
-	void sendFlightDataToSimulator();
-	void setCurrentFlightTime(int currentTimeInMS);
+	void sendDataToSimulator();
+	void setCurrentTime(int currentTimeInMS);
 	int getFlightLength();
-	int getCurrentFlightTime();
-	String[] getFlightData();
-	List<String> getFlightDataList();
-	int getFlightDataIndexByMsTime(int MSTime);
-	int getFlightParameterIndex(String paramName);
+	int getCurrentTime();
+	String[] getData();
+	List<String> getDataList();
+	int getFlightDataIndexByMs(int MS);
+	int getFlightParameterIndex(String name);
+	void startToFly();
+
 }
