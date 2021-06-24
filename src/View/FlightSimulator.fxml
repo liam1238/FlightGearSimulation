@@ -17,7 +17,7 @@
         <Joystick fx:id="MyJoystick" prefWidth="400.0"/>
     </right>
     <bottom>
-        <Icons fx:id="myIcons"/>
+        <Icons fx:id="myIcons" prefHeight="200.0"/>
     </bottom>
 </BorderPane>
 
