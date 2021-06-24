@@ -1,15 +1,15 @@
 package Model;
 
-public class simulationDataHandler {
-	private final SocketIO simOut;
+public class simulationHandler {
+	private final Socket simOut;
 	private final String[] flightData;
 	
-	private int flightLength; //the length of the flight in m.s.
+	private final int flightLength; //the length of the flight in m.s.
 	private int currentTimeInMS = 0; //the current flight time in m.s.
 	private int timeJumpMS = FlightGearAPI.defaultDelay; //the amount of ms to skip each iteration (used for flight speed change)
-	private float timeCorrection; //inner value used to convert times to match the sample rate
+	private final float timeCorrection; //inner value used to convert times to match the sample rate
 	
-	public simulationDataHandler(SocketIO socketOut, String[] flightData, int sampleRate, float speedMultiplayer) {
+	public simulationHandler(Socket socketOut, String[] flightData, int sampleRate, float speedMultiplayer) {
 		simOut = socketOut;
 		this.flightData = flightData;
 		timeCorrection = (float)FlightGearAPI.defaultDelay / (float)sampleRate;
@@ -23,28 +23,24 @@ public class simulationDataHandler {
 
 	public void sendFlightDataToSimulator() throws InterruptedException {
 		for (; currentTimeInMS < flightLength; currentTimeInMS += timeJumpMS) {
-			simOut.writeln(flightData[getFlightDataIndexByMsTime(currentTimeInMS)]);
+			simOut.writeLine(flightData[getFlightDataIndexByMsTime(currentTimeInMS)]);
 			Thread.sleep(FlightGearAPI.defaultDelay);
 		}
 	}
 	
-	public void setFlightSpeed(float speedMultiPlayer) { timeJumpMS = (int)(FlightGearAPI.defaultDelay * (speedMultiPlayer* timeCorrection)); }
+	public void setFlightSpeed(float speedMultiPlayer) { timeJumpMS = (int)(FlightGearAPI.defaultDelay * (speedMultiPlayer * timeCorrection)); }
 
 	public int getFlightLength() {
 		return flightLength;
 	}
 	
-	public void setCurrentFlightTime(int currentTimeInMs) {
-		currentTimeInMS = currentTimeInMs;
-	}
+	public void setCurrentFlightTime(int currentTimeInMs) { currentTimeInMS = currentTimeInMs; }
 	
 	public int getCurrentFlightTime() {
 		return currentTimeInMS;
 	}
 
-	public String[] getFlightData() {
-		return flightData;
-	}
+	public String[] getFlightData() { return flightData; }
 	
 	public void close() { simOut.close(); }
 }
