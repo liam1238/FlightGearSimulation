@@ -3,52 +3,46 @@ package Model;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
-public class SocketIO {
+public class Socket {
 
-	private Socket socket;
+	private java.net.Socket socket;
 	private DataInputStream input = null;
 	private DataOutputStream out = null;
 	
-	public SocketIO(Socket socket) {
+	public Socket(java.net.Socket socket) {
 		this.socket = socket;
 		try {
 			input = new DataInputStream(this.socket.getInputStream());
 			out = new DataOutputStream(this.socket.getOutputStream());
-		}
-		catch(UnknownHostException e) { e.printStackTrace(); }
-		catch(IOException e) { e.printStackTrace(); }
+		} catch(IOException e) { e.printStackTrace(); }
 	}
 
-	public SocketIO(String ip, int port) throws IOException {
-		this(new Socket(ip, port));
-	}
+	public Socket(String ip, int port) throws IOException { this(new java.net.Socket(ip, port)); }
 	
 	//constructor for server connection. waits until connected to the flight gear
-	public SocketIO(int port) throws IOException {
+	public Socket(int port) throws IOException {
 		this((new ServerSocket(port)).accept());
 	}
 	
-	public void writeln(String data) {
+	public void writeLine(String data) {
 		try {
-			if (data.charAt(data.length()-1) != '\n') //drop a line if there isn't one
+			if (data.charAt(data.length()-1) != '\n') //drop one line if there isn't one
 				data += '\n';
 			out.write(data.getBytes(StandardCharsets.UTF_8));
-		} catch (UnsupportedEncodingException e) {e.printStackTrace(); }
-		catch (IOException e) {e.printStackTrace(); }
+		} catch (IOException e) {e.printStackTrace(); }
 	}
-	
+
 	public String readline() {
 		try {
 			return input.readLine();
-		} catch (IOException e) { e.printStackTrace(); return ""; }
+		} catch (IOException e) {
+			return "";
+		}
 	}
-	
+
 	public void close() {
 		try {
 			socket.close();
