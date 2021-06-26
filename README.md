@@ -8,3 +8,5 @@ The application will open the simulator by her self (using a config file we made
 After the simulator opens the server side, the application will connect to him and will open the GUI for the user.
 
 On click on the "Load CSV File", the user will give the application a CSV file (from the resources directory), and the flight will load to the simulator to show and to the GUI to controll it.
+
+For more information about our project, please watch this video: "https://www.youtube.com/watch?v=NxkmcO_SPiE".
