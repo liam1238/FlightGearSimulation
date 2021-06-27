@@ -10,3 +10,5 @@ After the simulator opens the server side, the application will connect to him a
 On click on the "Load CSV File", the user will give the application a CSV file (from the resources directory), and the flight will load to the simulator to show and to the GUI to controll it.
 
 For more information about our project, please watch this video: "https://www.youtube.com/watch?v=NxkmcO_SPiE".
+
+To see the Class & Sequence Diagrams + our project presentation, please go to "Class & Sequence Diagrams" directory. 
