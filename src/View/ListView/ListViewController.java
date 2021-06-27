@@ -150,7 +150,7 @@ public class ListViewController {
         List<String> flightData;
         flightData = vm.getDataList();
         parametersList.getItems().addAll(flightData);
-        ListView.getItems().addAll("SimpleAnomalyDetector", "ZScoreAlgorithm", "HybridAlgorithm");
+        ListView.getItems().addAll("LinearRegAnomalyDetector", "ZScoreAnomalyDetector", "HybridAnomalyDetector");
         ListView.getSelectionModel().select(0);
         onMouseClickedListView(); //update detection algorithm to default
         ic.onMouseMovedTimeSlider();
