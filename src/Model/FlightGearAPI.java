@@ -88,7 +88,7 @@ import java.util.*;
 	private void updateDataLive() {
 		while (true) {
 			updateFlightDataFromSocket();
-			try { Thread.sleep(defaultDelay); } catch (InterruptedException e) {e.printStackTrace(); }
+			try { Thread.sleep(defaultDelay); } catch (InterruptedException ignored) { }
 		}
 	}
 
