@@ -16,3 +16,5 @@ During the flight screening the user can watch anomalies that was detected durin
 For more information about our project, please watch this video: "https://www.youtube.com/watch?v=NxkmcO_SPiE".
 
 To see the UML (Class & Sequence Diagrams) + our project presentation, please go to "Class & Sequence Diagrams" directory. 
+
+![flight gear simulator](https://user-images.githubusercontent.com/74408724/124024217-92ebab80-d9f7-11eb-9a6d-6717bc69c8ec.jpg)
