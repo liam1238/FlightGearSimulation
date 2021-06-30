@@ -29,7 +29,7 @@ public class Icons extends AnchorPane {
         super();
         try {
             FXMLLoader fxl = new FXMLLoader();
-            AnchorPane playerIcons = fxl.load(getClass().getResource("Icons.fxml").openStream());
+            AnchorPane playerIcons = fxl.load(getClass().getResource("icons.fxml").openStream());
             IconsController IconsController = fxl.getController();
             speedDownButton = IconsController.speedDownButton;
             doubleSpeedDownButton = IconsController.doubleSpeedDownButton;
