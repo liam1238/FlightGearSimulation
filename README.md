@@ -1,14 +1,18 @@
 # FlightGearSimulation
-Application to detect anomalies in flight using flight gear simulator.
+This Application aim is to detect anomalies in flight using Flight Gear simulator.
 
-In order to use our application, you should downdload the "flight gear simulator" from this website: "https://www.flightgear.org/", and put him in this exact path: "C:/Program Files/FlightGear 2020.3".
+In order to use our application, you should downdload the "flight gear simulator" from this website: "https://www.flightgear.org/", and put him in this exact path: "D:/Program Files/FlightGear 2020.3".
 
-The application will open the simulator by her self (using a config file we made) and will open a Socket in the simulator using the localhost ip (127.0.0.1) and port 5400.
+The application will open the simulator automaticlly (using a config file we have made) and will open a Socket in the simulator using the localhost ip (127.0.0.1) and port 5400.
 
-After the simulator opens the server side, the application will connect to him and will open the GUI for the user.
+After that the simulator will open the server side, the application will connect to simulator and will open the GUI for the user.
 
-On click on the "Load CSV File", the user will give the application a CSV file (from the resources directory), and the flight will load to the simulator to show and to the GUI to controll it.
+By clicking on the "Load CSV File", the user will choose a CSV file (from the resources directory), and then the flight will load to the simulator.
+
+Now, the user can control the speed of the flight using the GUI buttons.
+
+During the flight screening the user can watch anomalies that was detected during the flight, this made possible by anomaly detection algorithms.
 
 For more information about our project, please watch this video: "https://www.youtube.com/watch?v=NxkmcO_SPiE".
 
-To see the Class & Sequence Diagrams + our project presentation, please go to "Class & Sequence Diagrams" directory. 
+To see the UML(Class & Sequence Diagrams) + our project presentation, please go to "Class & Sequence Diagrams" directory. 
