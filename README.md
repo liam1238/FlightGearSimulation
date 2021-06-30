@@ -1,7 +1,7 @@
 # FlightGearSimulation
 This Application aim is to detect anomalies in flight using Flight Gear simulator.
 
-In order to use our application, you should downdload the "flight gear simulator" from this website: "https://www.flightgear.org/", and put him in this exact path: "D:/Program Files/FlightGear 2020.3".
+In order to use our application, you should downdload the "flight gear simulator" from this website: "https://www.flightgear.org/", and install it in this exact path: "D:/Program Files/FlightGear 2020.3".
 
 The application will open the simulator automaticlly (using a config file we have made) and will open a Socket in the simulator using the localhost ip (127.0.0.1) and port 5400.
 
